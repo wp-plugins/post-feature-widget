@@ -1,12 +1,12 @@
 === Featured Post Widget ===
 Contributors: tepelstreel
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D8AVGNDYYUNA2
-Tags: sidebar, widget, post, newspaper, feature, featured post, customized excerpt, excerpt
+Tags: sidebar, widget, post, newspaper, feature
 Requires at least: 2.7
 Tested up to: 3.1
-Stable tag: 1.0
+Stable tag: 1.5
 
-With the Featured Post Widget you can put a certain post in the focus and style it differenly.
+With the Featured Post Widget you can put a certain post in the focus and style it differently.
 
 == Description ==
 
@@ -62,10 +62,16 @@ to the widget style o get a nice shadow down right of the container. This is not
 
 == Changelog ==
 
-=1.0=
+= 1.5 =
 
-Initial release
+* Bugfix for WP versions elder than 2.9
+
+= 1.0 =
+
+* Initial release
 
 == Upgrade Notice ==
 
-Nothing here so far
+= 1.5 =
+
+Bugfix for WP versions elder than 2.9
