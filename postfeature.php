@@ -3,7 +3,7 @@
 Plugin Name: Featured Post Widget
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/featured-post-widget
 Description: Featured Post Widget is yet another plugin to make your blog a bit more newspaper-like. Just by entering he ID, you can put a post in the 'featured' area and display thumbnail, headline, excerpt or all three of them (if available) in the fully customizable widget.
-Version: 1.5
+Version: 1.6
 Author: Waldemar Stoffel
 Author URI: http://www.waldemarstoffel.com
 License: GPL3
@@ -203,16 +203,12 @@ function widget($args, $instance) {
 	   
 	   $fpw_thumb = '';
 	   
-	   ob_start();
-	   
-	   ob_end_clean();
-	   
 	   $fpw_image = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
 	   $fpw_thumb = $matches [1] [0];
 	   $fpw_image_title=$post->get_the_title;
 	   $fpw_size=getimagesize($fpw_thumb);
 	   $fpw_x=$instance['width'];
-	   $fpw_y=$fpw_size[1]/($fpw_size[0]/$fpw_x);
+	   $fpw_y=intval($fpw_size[1]/($fpw_size[0]/$fpw_x));
 	   
 	   ?>
        <a href="<?php the_permalink(); ?>">
