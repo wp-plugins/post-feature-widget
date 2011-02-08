@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: sidebar, widget, post, newspaper, feature
 Requires at least: 2.7
 Tested up to: 3.1
-Stable tag: 1.5
+Stable tag: 1.6
 
 With the Featured Post Widget you can put a certain post in the focus and style it differently.
 
@@ -16,7 +16,7 @@ The plugin was tested up to WP 3.1 and should work with versions down to 2.7 but
 
 == Installation ==
 
-1. Upload the `postfeature` folder to the `/wp-content/plugins/` directory
+1. Upload the `featured-post-widget` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Place and customize your widgets
 4. Ready
@@ -62,9 +62,13 @@ to the widget style o get a nice shadow down right of the container. This is not
 
 == Changelog ==
 
+= 1.6 =
+
+* Dutch translation added
+
 = 1.5 =
 
-* Bugfix for WP versions elder than 2.9
+* German translation added
 
 = 1.0 =
 
@@ -72,6 +76,10 @@ to the widget style o get a nice shadow down right of the container. This is not
 
 == Upgrade Notice ==
 
+= 1.6 =
+
+The Featured Post Widget is now available with Dutch translation
+
 = 1.5 =
 
-Bugfix for WP versions elder than 2.9
+The Featured Post Widget is now available with German translation
