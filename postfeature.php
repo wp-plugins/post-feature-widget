@@ -3,7 +3,7 @@
 Plugin Name: Featured Post Widget
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/featured-post-widget
 Description: Featured Post Widget is yet another plugin to make your blog a bit more newspaper-like. Just by entering he ID, you can put a post in the 'featured' area and display thumbnail, headline, excerpt or all three of them (if available) in the fully customizable widget.
-Version: 1.6
+Version: 1.7
 Author: Waldemar Stoffel
 Author URI: http://www.waldemarstoffel.com
 License: GPL3
@@ -60,8 +60,10 @@ class Featured_Post_Widget extends WP_Widget {
  function Featured_Post_Widget() {
 	 
 	 $widget_opts = array( 'description' => __('You can feature a certain post in this widget and display it, where and however you want, in your widget areas.', 'postfeature') );
+	 $control_opts = array( 'width' => 400 );
+
 	 
-	 parent::WP_Widget(false, $name = 'Featured Post', $widget_opts);
+	 parent::WP_Widget(false, $name = 'Featured Post', $widget_opts, $control_opts);
  }
  
 function form($instance) {
@@ -83,13 +85,13 @@ function form($instance) {
 <p>
  <label for="<?php echo $this->get_field_id('title'); ?>">
  <?php _e('Title:', 'postfeature'); ?>
- <input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
+ <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
  </label>
 </p>
 <p>
  <label for="<?php echo $this->get_field_id('article'); ?>">
  <?php _e('Give here the ID of the post, you want to appear in the widget:', 'postfeature'); ?>
- <input id="<?php echo $this->get_field_id('article'); ?>" name="<?php echo $this->get_field_name('article'); ?>" type="text" value="<?php echo $article; ?>" />
+ <input class="widefat" id="<?php echo $this->get_field_id('article'); ?>" name="<?php echo $this->get_field_name('article'); ?>" type="text" value="<?php echo $article; ?>" />
  </label>
 </p>
 <p>
@@ -101,7 +103,7 @@ function form($instance) {
 <p>
  <label for="<?php echo $this->get_field_id('width'); ?>">
  <?php _e('This is the width in px of the thumbnail (if choosing the first image):', 'postfeature'); ?>
- <input id="<?php echo $this->get_field_id('width'); ?>" name="<?php echo $this->get_field_name('width'); ?>" type="text" value="<?php echo $width; ?>" />
+ <input class="widefat" id="<?php echo $this->get_field_id('width'); ?>" name="<?php echo $this->get_field_name('width'); ?>" type="text" value="<?php echo $width; ?>" />
  </label>
 </p>
 <p>
@@ -119,13 +121,13 @@ function form($instance) {
 <p>
  <label for="<?php echo $this->get_field_id('excerpt'); ?>">
  <?php _e('If the excerpt of the post is not defined, by default the first 3 sentences of the post are showed. You can enter your own excerpt here, if you want.', 'postfeature'); ?>
- <textarea class="expand20-1000" id="<?php echo $this->get_field_id('excerpt'); ?>" name="<?php echo $this->get_field_name('excerpt'); ?>"><?php echo $excerpt; ?></textarea>
+ <textarea class="widefat" id="<?php echo $this->get_field_id('excerpt'); ?>" name="<?php echo $this->get_field_name('excerpt'); ?>"><?php echo $excerpt; ?></textarea>
  </label>
 </p>
 <p>
  <label for="<?php echo $this->get_field_id('style'); ?>">
  <?php _e('Here you can finally style the widget. Simply type something like<br /><strong>border: 2px solid;<br />border-color: #cccccc;<br />padding: 10px;</strong><br />to get just a gray outline and a padding of 10 px. If you leave that section empty, your theme will style the widget.', 'postfeature'); ?>
- <textarea class="expand20-3000" id="<?php echo $this->get_field_id('style'); ?>" name="<?php echo $this->get_field_name('style'); ?>"><?php echo $style; ?></textarea>
+ <textarea class="widefat" id="<?php echo $this->get_field_id('style'); ?>" name="<?php echo $this->get_field_name('style'); ?>"><?php echo $style; ?></textarea>
  </label>
 </p>
 <?php
@@ -164,7 +166,9 @@ function widget($args, $instance) {
 	
 	else {
 		
-		$fpw_before_widget="<div style=\"".$instance['style']."\">";
+		$style=str_replace(array("\r\n", "\n", "\r"), '', $instance['style']);
+		
+		$fpw_before_widget="<div id=\"".$widget_id."\" style=\"".$style."\">";
 		$fpw_after_widget="</div>";
 		
 	}
@@ -261,9 +265,9 @@ function widget($args, $instance) {
 	
 	if (!$fpw_excerpt) {
 		
-		$fpw_text=explode('[/caption]', get_the_content());
+		$fpw_text=preg_replace('/\[caption(.*?)\[\/caption\]/', '', get_the_content());
 		
-		$fpw_short=array_slice(preg_split("/([\t.!?]+)/", end ($fpw_text), -1, PREG_SPLIT_DELIM_CAPTURE), 0, 6);
+		$fpw_short=array_slice(preg_split("/([\t.!?]+)/", $fpw_text, -1, PREG_SPLIT_DELIM_CAPTURE), 0, 6);
 			
 		$fpw_excerpt=implode($fpw_short);
 	

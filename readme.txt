@@ -1,10 +1,10 @@
 === Featured Post Widget ===
 Contributors: tepelstreel
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D8AVGNDYYUNA2
-Tags: sidebar, widget, post, newspaper, feature
+Tags: sidebar, widget, post, newspaper, feature, featured, image
 Requires at least: 2.7
 Tested up to: 3.1
-Stable tag: 1.6
+Stable tag: 1.7
 
 With the Featured Post Widget you can put a certain post in the focus and style it differently.
 
@@ -62,6 +62,10 @@ to the widget style o get a nice shadow down right of the container. This is not
 
 == Changelog ==
 
+= 1.7 =
+
+* Small changes in the handling that provide more accurate working
+
 = 1.6 =
 
 * Dutch translation added
@@ -76,10 +80,15 @@ to the widget style o get a nice shadow down right of the container. This is not
 
 == Upgrade Notice ==
 
+= 1.5 =
+
+The Featured Post Widget is now available with German translation
+
 = 1.6 =
 
 The Featured Post Widget is now available with Dutch translation
 
-= 1.5 =
+= 1.7 =
 
-The Featured Post Widget is now available with German translation
+Small changes in the handling that provide more accurate working
+
