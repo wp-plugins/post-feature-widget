@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: sidebar, widget, post, newspaper, feature, featured, image
 Requires at least: 2.7
 Tested up to: 3.1
-Stable tag: 1.7
+Stable tag: 1.8
 
 With the Featured Post Widget you can put a certain post in the focus and style it differently.
 
@@ -62,6 +62,10 @@ to the widget style o get a nice shadow down right of the container. This is not
 
 == Changelog ==
 
+= 1.8 =
+
+* A second post can now be defined as a backup, that will show up, if the wodget is showing on a single post page, showing the feaured post. Just o avoid dubbles.
+
 = 1.7 =
 
 * Small changes in the handling that provide more accurate working
@@ -92,3 +96,6 @@ The Featured Post Widget is now available with Dutch translation
 
 Small changes in the handling that provide more accurate working
 
+= 1.8 =
+
+A second post can now be defined as a backup, that will show up, if the wodget is showing on a single post page, showing the feaured post. Just o avoid dubbles.
