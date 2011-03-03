@@ -62,7 +62,8 @@ to the widget style to get a nice shadow down right of the container. This is no
 
 == Changelog ==
 
-= 1.8 =
+= 1.8.1 =
+
 * Small bugfix with the backup post
 
 = 1.8 =
@@ -103,5 +104,5 @@ Small changes in the handling that provide more accurate working
 
 A second post can now be defined as a backup, that will show up, if the widget is showing on a single post page, showing the featured post. Just to avoid doublettes.
 
-= 1.8 =
+= 1.8.1 =
 Small bugfix with the backup post
