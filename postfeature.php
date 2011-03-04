@@ -3,7 +3,7 @@
 Plugin Name: Featured Post Widget
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/featured-post-widget
 Description: Featured Post Widget is yet another plugin to make your blog a bit more newspaper-like. Just by entering he ID, you can put a post in the 'featured' area and display thumbnail, headline, excerpt or all three of them (if available) in the fully customizable widget.
-Version: 1.7
+Version: 1.8.2
 Author: Waldemar Stoffel
 Author URI: http://www.waldemarstoffel.com
 License: GPL3
@@ -59,7 +59,7 @@ class Featured_Post_Widget extends WP_Widget {
  
  function Featured_Post_Widget() {
 	 
-	 $widget_opts = array( 'description' => __('You can feature a certain post in this widget and display it, where and however you want, in your widget areas.', 'postfeature') );
+	 $widget_opts = array( 'description' => __('You can feature a certain post in this widget and display it, where and however you want, in your widget areas. The ID of a backup post can be given to avoid dubble content.', 'postfeature') );
 	 $control_opts = array( 'width' => 400 );
 
 	 
@@ -72,6 +72,7 @@ function form($instance) {
 	$thumb = esc_attr($instance['thumb']);
 	$image = esc_attr($instance['image']);
 	$article = esc_attr($instance['article']);
+	$backup = esc_attr($instance['backup']);
 	$width = esc_attr($instance['width']);
 	$subtitle = esc_attr($instance['subtitle']);	
 	$excerpt = esc_attr($instance['excerpt']);
@@ -95,9 +96,14 @@ function form($instance) {
  </label>
 </p>
 <p>
+ <label for="<?php echo $this->get_field_id('backup'); ?>">
+ <?php _e('Give here the ID of the backup post, it will appear, when a single post page shows the featured article:', 'postfeature'); ?>
+ <input class="widefat" id="<?php echo $this->get_field_id('backup'); ?>" name="<?php echo $this->get_field_name('backup'); ?>" type="text" value="<?php echo $backup; ?>" />
+ </label>
+</p>
+<p>
  <label for="<?php echo $this->get_field_id('image'); ?>">
- <?php _e('Check to get the first image of the post as thumbnail.', 'postfeature'); ?>
- <input id="<?php echo $this->get_field_id('image'); ?>" name="<?php echo $this->get_field_name('image'); ?>" <?php if(!empty($image)) {echo "checked=\"checked\""; } ?> type="checkbox" />
+ <input id="<?php echo $this->get_field_id('image'); ?>" name="<?php echo $this->get_field_name('image'); ?>" <?php if(!empty($image)) {echo "checked=\"checked\""; } ?> type="checkbox" />&nbsp;<?php _e('Check to get the first image of the post as thumbnail.', 'postfeature'); ?>
  </label>
 </p>
 <p>
@@ -108,14 +114,12 @@ function form($instance) {
 </p>
 <p>
  <label for="<?php echo $this->get_field_id('thumb'); ?>">
- <?php _e('Check to <strong>not</strong> display the thumbnail of the post.', 'postfeature'); ?>
- <input id="<?php echo $this->get_field_id('thumb'); ?>" name="<?php echo $this->get_field_name('thumb'); ?>" <?php if(!empty($thumb)) {echo "checked=\"checked\""; } ?> type="checkbox" />
+ <input id="<?php echo $this->get_field_id('thumb'); ?>" name="<?php echo $this->get_field_name('thumb'); ?>" <?php if(!empty($thumb)) {echo "checked=\"checked\""; } ?> type="checkbox" />&nbsp;<?php _e('Check to <strong>not</strong> display the thumbnail of the post.', 'postfeature'); ?>
  </label>
 </p>
 <p>
  <label for="<?php echo $this->get_field_id('subtitle'); ?>">
- <?php _e('Check to display the title of the post <strong>under</strong> the thumbnail (it is above by default).', 'postfeature'); ?>
- <input id="<?php echo $this->get_field_id('subtitle'); ?>" name="<?php echo $this->get_field_name('subtitle'); ?>" <?php if(!empty($subtitle)) {echo "checked=\"checked\""; } ?> type="checkbox" />
+ <input id="<?php echo $this->get_field_id('subtitle'); ?>" name="<?php echo $this->get_field_name('subtitle'); ?>" <?php if(!empty($subtitle)) {echo "checked=\"checked\""; } ?> type="checkbox" />&nbsp;<?php _e('Check to display the title of the post <strong>under</strong> the thumbnail (it is above by default).', 'postfeature'); ?>
  </label>
 </p>
 <p>
@@ -141,6 +145,7 @@ function update($new_instance, $old_instance) {
 	 
 	 $instance['title'] = strip_tags($new_instance['title']);
 	 $instance['article'] = strip_tags($new_instance['article']);
+	 $instance['backup'] = strip_tags($new_instance['backup']);	 
 	 $instance['thumb'] = strip_tags($new_instance['thumb']);	 
 	 $instance['image'] = strip_tags($new_instance['image']);	 
 	 $instance['width'] = strip_tags($new_instance['width']);	 
@@ -180,12 +185,21 @@ function widget($args, $instance) {
 		echo $before_title . $title . $after_title;
 		
 	}
+	
+	global $wp_query;
+		
+	$fpw_post_id = get_post($instance['article']);
+	$fpw_post_name = $fpw_post_id->post_name;
+	
+	if ($instance['article'] == $wp_query->get( 'p' ) || $fpw_post_name == $wp_query->get ( 'name' )) { $fpw_post = 'p='.$instance['backup']; }
+	
+	else { $fpw_post = 'p='.$instance['article']; }
  
 /* This is the actual function of the plugin, it fills the widget with the customized post */
 
  global $post;
- $myposts = get_posts('p='.$instance['article']);
- foreach($myposts as $post) :
+ $fpw_posts = get_posts($fpw_post);
+ foreach($fpw_posts as $post) :
  
    setup_postdata($post);
    
@@ -209,6 +223,9 @@ function widget($args, $instance) {
 	   
 	   $fpw_image = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
 	   $fpw_thumb = $matches [1] [0];
+	   
+	   if ($fpw_thumb) {	   
+	   
 	   $fpw_image_title=$post->get_the_title;
 	   $fpw_size=getimagesize($fpw_thumb);
 	   $fpw_x=$instance['width'];
@@ -220,7 +237,7 @@ function widget($args, $instance) {
        </a>
 	   <?php
 	
-   }
+   }}
    
    else {
 	   
