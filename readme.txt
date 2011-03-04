@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: sidebar, widget, post, newspaper, feature, featured, image
 Requires at least: 2.7
 Tested up to: 3.1
-Stable tag: 1.8.1
+Stable tag: 1.8.2
 
 With the Featured Post Widget you can put a certain post in the focus and style it differently.
 
@@ -62,6 +62,10 @@ to the widget style to get a nice shadow down right of the container. This is no
 
 == Changelog ==
 
+= 1.8.2 =
+
+* Bugfix with backup post; plugin works now also with slugs
+
 = 1.8.1 =
 
 * Small bugfix with the backup post
@@ -105,4 +109,9 @@ Small changes in the handling that provide more accurate working
 A second post can now be defined as a backup, that will show up, if the widget is showing on a single post page, showing the featured post. Just to avoid doublettes.
 
 = 1.8.1 =
+
 Small bugfix with the backup post
+
+= 1.8.2 =
+
+Backup post works now with slugs and id's

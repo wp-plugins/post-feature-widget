@@ -3,7 +3,7 @@
 Plugin Name: Featured Post Widget
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/featured-post-widget
 Description: Featured Post Widget is yet another plugin to make your blog a bit more newspaper-like. Just by entering he ID, you can put a post in the 'featured' area and display thumbnail, headline, excerpt or all three of them (if available) in the fully customizable widget.
-Version: 1.8.1
+Version: 1.8.2
 Author: Waldemar Stoffel
 Author URI: http://www.waldemarstoffel.com
 License: GPL3
@@ -186,18 +186,20 @@ function widget($args, $instance) {
 		
 	}
 	
-	
 	global $wp_query;
+		
+	$fpw_post_id = get_post($instance['article']);
+	$fpw_post_name = $fpw_post_id->post_name;
 	
-	if (is_single() && $instance['article'] == $wp_query->get( 'p' )) $fpw_post = $instance['backup'];
+	if ($instance['article'] == $wp_query->get( 'p' ) || $fpw_post_name == $wp_query->get ( 'name' )) { $fpw_post = 'p='.$instance['backup']; }
 	
-	else $fpw_post = $instance['article'];
+	else { $fpw_post = 'p='.$instance['article']; }
  
 /* This is the actual function of the plugin, it fills the widget with the customized post */
 
  global $post;
- $myposts = get_posts('p='.$fpw_post);
- foreach($myposts as $post) :
+ $fpw_posts = get_posts($fpw_post);
+ foreach($fpw_posts as $post) :
  
    setup_postdata($post);
    
@@ -221,6 +223,9 @@ function widget($args, $instance) {
 	   
 	   $fpw_image = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
 	   $fpw_thumb = $matches [1] [0];
+	   
+	   if ($fpw_thumb) {	   
+	   
 	   $fpw_image_title=$post->get_the_title;
 	   $fpw_size=getimagesize($fpw_thumb);
 	   $fpw_x=$instance['width'];
@@ -232,7 +237,7 @@ function widget($args, $instance) {
        </a>
 	   <?php
 	
-   }
+   }}
    
    else {
 	   
