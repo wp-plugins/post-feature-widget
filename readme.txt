@@ -4,13 +4,15 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: sidebar, widget, post, newspaper, feature, featured, image
 Requires at least: 2.7
 Tested up to: 3.1
-Stable tag: 1.8.2
+Stable tag: 1.9
 
 With the Featured Post Widget you can put a certain post in the focus and style it differently.
 
 == Description ==
 
 The Featured Post Widget is a customizable multiwidget, that displays a single post in the widget area. You can decide, whether or not the post thumbnail is displayed, whether the post title is above or beneath the thumbnail and a couple of more things. And of course, you can style the widget individually.
+
+The plugin makes now use of the 'TextAreaExpander plugin for jQuery' by Craig Buckler, Optimalworks.net to have a growing input field for the style and custom excerpt.
 
 The plugin was tested up to WP 3.2 and should work with versions down to 2.7 but was never tested.
 
@@ -22,6 +24,10 @@ The plugin was tested up to WP 3.2 and should work with versions down to 2.7 but
 4. Ready
 
 == Frequently Asked Questions ==
+
+= I want the widget only on the homepage, but it shows everywhere. =
+
+If you want the widget only to show on certain pages, you might want to try our '<a href="http://wordpress.org/extend/plugins/advanced-featured-post-widget/">Advanced Featured Post Widget</a>' plugin, which is more customizable.
 
 = I styled the widget container myself and i looks bad. What do I do? =
 
@@ -61,6 +67,9 @@ to the widget style to get a nice shadow down right of the container. This is no
 2. The widget's settings section
 
 == Changelog ==
+
+= 1.9 =
+* The textareas are now resizable and the input fields got smaller
 
 = 1.8.2 =
 
