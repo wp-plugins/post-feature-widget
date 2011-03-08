@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: sidebar, widget, post, newspaper, feature, featured, image
 Requires at least: 2.7
 Tested up to: 3.1
-Stable tag: 1.7
+Stable tag: 1.8.2
 
 With the Featured Post Widget you can put a certain post in the focus and style it differently.
 
@@ -12,7 +12,7 @@ With the Featured Post Widget you can put a certain post in the focus and style 
 
 The Featured Post Widget is a customizable multiwidget, that displays a single post in the widget area. You can decide, whether or not the post thumbnail is displayed, whether the post title is above or beneath the thumbnail and a couple of more things. And of course, you can style the widget individually.
 
-The plugin was tested up to WP 3.1 and should work with versions down to 2.7 but was never tested.
+The plugin was tested up to WP 3.2 and should work with versions down to 2.7 but was never tested.
 
 == Installation ==
 
@@ -53,7 +53,7 @@ Add something like
 -webkit-box-shadow: 10px 10px 5px #888888;
 box-shadow: 10px 10px 5px #888888;`
  
-to the widget style o get a nice shadow down right of the container. This is not supported by all browsers yet, but should work in almost all of them.
+to the widget style to get a nice shadow down right of the container. This is not supported by all browsers yet, but should work in almost all of them.
 
 == Screenshots ==
 
@@ -61,6 +61,18 @@ to the widget style o get a nice shadow down right of the container. This is not
 2. The widget's settings section
 
 == Changelog ==
+
+= 1.8.2 =
+
+* Bugfix with backup post; plugin works now also with slugs
+
+= 1.8.1 =
+
+* Small bugfix with the backup post
+
+= 1.8 =
+
+* A second post can now be defined as a backup, that will show up, if the widget is showing on a single post page, showing the feaured post. Just to avoid doublettes.
 
 = 1.7 =
 
@@ -92,3 +104,14 @@ The Featured Post Widget is now available with Dutch translation
 
 Small changes in the handling that provide more accurate working
 
+= 1.8 =
+
+A second post can now be defined as a backup, that will show up, if the widget is showing on a single post page, showing the featured post. Just to avoid doublettes.
+
+= 1.8.1 =
+
+Small bugfix with the backup post
+
+= 1.8.2 =
+
+Backup post works now with slugs and id's
