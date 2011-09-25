@@ -12,49 +12,67 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
+#: postfeature.php:53
+msgid "FAQ"
+msgstr ""
+
+#: postfeature.php:54
+msgid "Donate"
+msgstr ""
+
 #: postfeature.php:62
 msgid ""
 "You can feature a certain post in this widget and display it, where and "
 "however you want, in your widget areas."
 msgstr ""
 
-#: postfeature.php:88
+#: postfeature.php:116
 msgid "Title:"
 msgstr ""
 
-#: postfeature.php:94
+#: postfeature.php:123
 msgid "Give here the ID of the post, you want to appear in the widget:"
 msgstr ""
 
-#: postfeature.php:100
+#: postfeature.php:128
 msgid "Give here the ID of the backup post, it will appear, when a single post page shows the featured article:"
 msgstr ""
 
-#: postfeature.php:106
+#: postfeature.php:135
 msgid "Check to get the first image of the post as thumbnail."
 msgstr ""
 
-#: postfeature.php:111
+#: postfeature.php:140
 msgid "This is the width in px of the thumbnail (if choosing the first image):"
 msgstr ""
 
-#: postfeature.php:117
+#: postfeature.php:146
 msgid "Check to <strong>not</strong> display the thumbnail of the post."
 msgstr ""
 
-#: postfeature.php:122
+#: postfeature.php:151
 msgid ""
 "Check to display the title of the post <strong>under</strong> the thumbnail "
 "(it is above by default)."
 msgstr ""
 
-#: postfeature.php:127
+#: postfeature.php:156
 msgid ""
 "If the excerpt of the post is not defined, by default the first 3 sentences "
 "of the post are showed. You can enter your own excerpt here, if you want."
 msgstr ""
 
-#: postfeature.php:133
+#: postfeature.php:162
+msgid ""
+"Check to have an additional &#39;read more&#39; link at the end of the excerpt."
+msgstr ""
+
+#: postfeature.php:167
+msgid ""
+"Write here some text for the &#39;read more&#39; link. By default, it is [...]:"
+msgstr ""
+
+#: postfeature.php:173
 msgid ""
 "Here you can finally style the widget. Simply type something like<br /"
 "><strong>border: 2px solid;<br />border-color: #cccccc;<br />padding: 10px;</"
