@@ -8,50 +8,66 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2011-03-01 23:54+0200\n"
+"PO-Revision-Date: 2011-09-26 01:01+0200\n"
 "Last-Translator: Waldemar Stoffel <stoffel@atelier-fuenf.de>\n"
 "Language-Team: Waldemar Stoffel <info@waldemarstoffel.com>\n"
 "X-Poedit-Language: Dutch\n"
 "X-Poedit-Country: NETHERLANDS\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
+#: postfeature.php:53
+msgid "FAQ"
+msgstr "FAQ"
+
+#: postfeature.php:54
+msgid "Donate"
+msgstr "Donatie"
+
 #: postfeature.php:62
 msgid "You can feature a certain post in this widget and display it, where and however you want, in your widget areas. The ID of a backup post can be given to avoid dubble content."
 msgstr "Met deze widget kun je een bepaalde post, waar en hoe dan ook, in je widget areas in de kijker zetten. Er kan een backup-ID worden opgegeven, om dubbele inhoud te voorkomen."
 
-#: postfeature.php:88
+#: postfeature.php:116
 msgid "Title:"
 msgstr "Titel:"
 
-#: postfeature.php:94
+#: postfeature.php:123
 msgid "Give here the ID of the post, you want to appear in the widget:"
 msgstr "Geef hier de ID van de post aan, die je in het widget wilt tonen:"
 
-#: postfeature.php:100
+#: postfeature.php:128
 msgid "Give here the ID of the backup post, it will appear, when a single post page shows the featured article:"
 msgstr "Geef hier de ID van de backup post. Die zal er in de widget verschijnen, als de featured post op een single post page verschijnt."
 
-#: postfeature.php:106
+#: postfeature.php:135
 msgid "Check to get the first image of the post as thumbnail."
 msgstr "Klik hier, om de eerste foto van de post als thumbnail te hebben."
 
-#: postfeature.php:111
+#: postfeature.php:140
 msgid "This is the width in px of the thumbnail (if choosing the first image):"
 msgstr "Dit is de breedte van de thumbnail in px (als het eerste foto is gekozen):"
 
-#: postfeature.php:117
+#: postfeature.php:146
 msgid "Check to <strong>not</strong> display the thumbnail of the post."
 msgstr "Klik hier, om <strong>geen</strong> thumbnail van de post te hebben."
 
-#: postfeature.php:122
+#: postfeature.php:151
 msgid "Check to display the title of the post <strong>under</strong> the thumbnail (it is above by default)."
 msgstr "Klik hier, om de titel van de post <strong>onder</strong> de thumbnail te laten zien (normaal gezien staat die erover)."
 
-#: postfeature.php:127
+#: postfeature.php:156
 msgid "If the excerpt of the post is not defined, by default the first 3 sentences of the post are showed. You can enter your own excerpt here, if you want."
 msgstr "Als er geen excerpt gedefinieerd is, worden de eerste drie zinnen van de post getoond. Je kunt hier immers je eigen excerpt schrijven, als je wilt."
 
-#: postfeature.php:133
+#: postfeature.php:162
+msgid "Check to have an additional &#39;read more&#39; link at the end of the excerpt."
+msgstr "Klick hier, om een &#39;lees meer&#39; link op het einde van je excerpt te hebben."
+
+#: postfeature.php:167
+msgid "Write here some text for the &#39;read more&#39; link. By default, it is [...]:"
+msgstr "Schrijf hier de text voor &#39;lees meer&#39; link. Standaard is [...]:"
+
+#: postfeature.php:173
 msgid "Here you can finally style the widget. Simply type something like<br /><strong>border: 2px solid;<br />border-color: #cccccc;<br />padding: 10px;</strong><br />to get just a gray outline and a padding of 10 px. If you leave that section empty, your theme will style the widget."
 msgstr "Hier kun je de widget stijlen. Schrijf gewoon iets als<br /><strong>border: 2px solid;<br />border-color: #cccccc;<br />padding: 10px;</strong><br />om een grijze kast met een afstand van 10 px naar binnen toe e verkrijgen. Als je dit veld leeg laat, zal je theme de stijl van je widget bepalen."
 

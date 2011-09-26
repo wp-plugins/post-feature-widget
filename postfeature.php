@@ -3,7 +3,7 @@
 Plugin Name: Featured Post Widget
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/featured-post-widget
 Description: Featured Post Widget is yet another plugin to make your blog a bit more newspaper-like. Just by entering the ID, you can put a post in the 'featured' area and display thumbnail, headline, excerpt or all three of them (if available) in the fully customizable widget.
-Version: 1.9
+Version: 2.1
 Author: Waldemar Stoffel
 Author URI: http://www.waldemarstoffel.com
 License: GPL3
@@ -80,6 +80,8 @@ function form($instance) {
 	$width = esc_attr($instance['width']);
 	$subtitle = esc_attr($instance['subtitle']);	
 	$excerpt = esc_attr($instance['excerpt']);
+	$readmore = esc_attr($instance['readmore']);
+	$rmtext = esc_attr($instance['rmtext']);
 	$style = esc_attr($instance['style']);
 	
 	if (empty($style)) {
@@ -156,6 +158,17 @@ function form($instance) {
  </label>
 </p>
 <p>
+ <label for="<?php echo $this->get_field_id('readmore'); ?>">
+ <input id="<?php echo $this->get_field_id('readmore'); ?>" name="<?php echo $this->get_field_name('readmore'); ?>" <?php if(!empty($readmore)) {echo "checked=\"checked\""; } ?> type="checkbox" />&nbsp;<?php _e('Check to have an additional &#39;read more&#39; link at the end of the excerpt.', 'postfeature'); ?>
+ </label>
+</p>
+<p>
+ <label for="<?php echo $this->get_field_id('rmtext'); ?>">
+ <?php _e('Write here some text for the &#39;read more&#39; link. By default, it is [...]:', 'postfeature'); ?>
+ <input class="widefat" id="<?php echo $this->get_field_id('rmtext'); ?>" name="<?php echo $this->get_field_name('rmtext'); ?>" type="text" value="<?php echo $rmtext; ?>" />
+ </label>
+</p>
+<p>
  <label for="<?php echo $this->get_field_id('style'); ?>">
  <?php _e('Here you can finally style the widget. Simply type something like<br /><strong>border: 2px solid;<br />border-color: #cccccc;<br />padding: 10px;</strong><br />to get just a gray outline and a padding of 10 px. If you leave that section empty, your theme will style the widget.', 'postfeature'); ?>
  <textarea class="widefat expand<?php echo $style_height; ?>-1000" id="<?php echo $this->get_field_id('style'); ?>" name="<?php echo $this->get_field_name('style'); ?>"><?php echo $style; ?></textarea>
@@ -178,6 +191,8 @@ function update($new_instance, $old_instance) {
 	 $instance['width'] = strip_tags($new_instance['width']);	 
 	 $instance['subtitle'] = strip_tags($new_instance['subtitle']);
 	 $instance['excerpt'] = strip_tags($new_instance['excerpt']);
+	 $instance['readmore'] = strip_tags($new_instance['readmore']);
+	 $instance['rmtext'] = strip_tags($new_instance['rmtext']);
 	 $instance['style'] = strip_tags($new_instance['style']);
 
 	 return $instance;
@@ -317,7 +332,25 @@ function widget($args, $instance) {
 	
 	}
 	
-	echo "<p>".$fpw_excerpt."</p>";
+	echo '<p>'.$fpw_excerpt;
+	
+/* do we want the read more link and do we have text for it? */
+
+	if ($instance['readmore']) {
+		
+		$fpw_rmtext=$instance['rmtext'];
+		
+		if (!$fpw_rmtext) $fpw_rmtext='[...]';
+		
+		echo ' <a href="';
+		
+		the_permalink();
+		
+		echo '">'.$fpw_rmtext.'</a>';
+		
+	}
+		
+	echo '</p>';
 	
 	
 	endforeach;
