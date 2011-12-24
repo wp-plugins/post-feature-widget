@@ -22,20 +22,32 @@ msgstr ""
 
 #: postfeature.php:62
 msgid ""
-"You can feature a certain post in this widget and display it, where and "
-"however you want, in your widget areas."
+"You can feature a certain post in this widget and display it, where and however you want, in your widget areas. A backup post can be given to avoid dubble content."
 msgstr ""
 
 #: postfeature.php:116
 msgid "Title:"
 msgstr ""
 
-#: postfeature.php:123
-msgid "Give here the ID of the post, you want to appear in the widget:"
+#: postfeature.php:131
+msgid "Choose here the post, you want to appear in the widget."
 msgstr ""
 
-#: postfeature.php:128
-msgid "Give here the ID of the backup post, it will appear, when a single post page shows the featured article:"
+#: postfeature.php:135
+#: postfeature.php:139
+msgid "Take a random post"
+msgstr ""
+
+#: postfeature.php:137
+msgid "Choose here the backup post. It will appear, when a single post page shows the featured article."
+msgstr ""
+
+#: postfeature.php:127
+msgid "I want to style the first paragraph in this widget with my own class."
+msgstr ""
+
+#: postfeature.php:131
+msgid "Write here the name of your class:"
 msgstr ""
 
 #: postfeature.php:135
@@ -60,6 +72,10 @@ msgstr ""
 msgid ""
 "If the excerpt of the post is not defined, by default the first 3 sentences "
 "of the post are showed. You can enter your own excerpt here, if you want."
+msgstr ""
+
+#: postfeature.php:158
+msgid "Check to suppress shortcodes in the widget (in case the content is showing)."
 msgstr ""
 
 #: postfeature.php:162

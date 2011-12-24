@@ -3,8 +3,8 @@ Contributors: tepelstreel
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D8AVGNDYYUNA2
 Tags: sidebar, widget, post, newspaper, feature, featured, image
 Requires at least: 2.7
-Tested up to: 3.3
-Stable tag: 2.1
+Tested up to: 3.4
+Stable tag: 3.0
 
 With the Featured Post Widget you can put a certain post in the focus and style it differently.
 
@@ -12,7 +12,7 @@ With the Featured Post Widget you can put a certain post in the focus and style 
 
 The Featured Post Widget is a customizable multiwidget, that displays a single post in the widget area. You can decide, whether or not the post thumbnail is displayed, whether the post title is above or beneath the thumbnail and a couple of more things. And of course, you can style the widget individually.
 
-The plugin was tested up to WP 3.3 and should work with versions down to 2.7 but was never tested.
+The plugin was tested up to WP 3.4 and should work with versions down to 2.7 but was never tested.
 
 == Installation ==
 
@@ -61,6 +61,10 @@ to the widget style to get a nice shadow down right of the container. This is no
 2. The widget's settings section
 
 == Changelog ==
+
+= 3.0 =
+
+* Some streamlining done, more fool proof.
 
 = 2.1 =
 
@@ -139,3 +143,7 @@ You can now define a 'read more' link for the featured post
 = 2.1 =
 
 Bugfix with excerpt
+
+= 3.0 =
+
+Some streamlining done, more fool proof.
