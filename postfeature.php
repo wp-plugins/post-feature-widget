@@ -3,7 +3,7 @@
 Plugin Name: Featured Post Widget
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/featured-post-widget
 Description: Featured Post Widget is yet another plugin to make your blog a bit more newspaper-like. Just by choosing a post from a dropdown, you can put it in the 'featured' area and display thumbnail, headline, excerpt or all three of them (if available) in the fully customizable widget.
-Version: 3.0
+Version: 3.1
 Author: Waldemar Stoffel
 Author URI: http://www.waldemarstoffel.com
 License: GPL3
@@ -29,7 +29,7 @@ License: GPL3
 
 /* Stop direct call */
 
-if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die("Sorry, you don't have direct access to this page."); }
+if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) die("Sorry, you don't have direct access to this page."); 
 
 /* attach JavaScript file for textarea reszing */
 
@@ -185,15 +185,12 @@ function form($instance) {
 <script type="text/javascript"><!--
 jQuery(document).ready(function() {
 	jQuery("#<?php echo $this->get_field_id('excerpt'); ?>").autoResize();
-});
-jQuery(document).ready(function() {
 	jQuery("#<?php echo $this->get_field_id('style'); ?>").autoResize();
 });
 --></script>
 <?php
- }
- 
 
+}
 
 function update($new_instance, $old_instance) {
 	 
@@ -234,18 +231,14 @@ function widget($args, $instance) {
 		
 		$style=str_replace(array("\r\n", "\n", "\r"), '', $instance['style']);
 		
-		$fpw_before_widget="<div id=\"".$widget_id."\" style=\"".$style."\">";
-		$fpw_after_widget="</div>";
+		$fpw_before_widget='<div id="'.$widget_id.'" style="'.$style.'">';
+		$fpw_after_widget='</div>';
 		
 	}
 	
 	echo $fpw_before_widget;
 	
-	if ( $title ) {
-		
-		echo $before_title . $title . $after_title;
-		
-	}
+	if ( $title ) echo $before_title . $title . $after_title;
 	
 	global $wp_query;
 		
@@ -264,13 +257,30 @@ function widget($args, $instance) {
  
    setup_postdata($post);
    
-   // post tile above thumbnail
+   $fpw_args = array(
+		'post_type' => 'attachment',
+		'numberposts' => 1,
+		'post_status' => null,
+		'post_parent' => $post->ID
+	   );
+	   
+	   $fpw_attachments = get_posts( $fpw_args );
+	   
+	   if ( $fpw_attachments ) {
+        foreach ( $fpw_attachments as $attachment )
+		  $fpw_image_alt = trim(strip_tags( get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true) ));
+		  $fpw_image_title = trim(strip_tags( $attachment->post_title ));
+        }
+		
+	$fpw_title_tag = __('Permalink to', 'postfeature').' '.$post->post_title;
+   
+   // post title above thumbnail
    
    if (!$instance['subtitle']) {
 	   
 	   ?>
        <p<?php if ($instance['class']) echo ' class="'.$instance['myclass'].'"'; ?>>
-       <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+       <a href="<?php the_permalink(); ?>" title="<?php echo $fpw_title_tag; ?>"><?php the_title(); ?></a>
        </p>
 	   <?php 
    
@@ -286,18 +296,18 @@ function widget($args, $instance) {
 	  
 	  if ($fpw_thumb) {
 		  $host_string = 'http://' . $_SERVER['HTTP_HOST'];
-		  $fpw_image_title = $post->get_the_title;
+		  
+		  if (empty($fpw_image_title)) $fpw_image_title = $post->post_title;
+		  if (empty($fpw_image_alt)) $fpw_image_alt = $post->post_title;
+		  
 		  $fpw_x = $instance['width'];
 		  
-		  if (strncmp($fpw_thumb, $host_string, strlen($host_string)) == 0) {
-			  $realfilepath = $_SERVER['DOCUMENT_ROOT'] . urldecode(substr($fpw_thumb, strlen($host_string)));
-		  }
+		  if (strncmp($fpw_thumb, $host_string, strlen($host_string)) == 0) $realfilepath = $_SERVER['DOCUMENT_ROOT'] . urldecode(substr($fpw_thumb, strlen($host_string)));
 		  
-		  else {
-			  $realfilepath = $fpw_thumb;
-		  }
+		  else $realfilepath = $fpw_thumb;
 		  
 		  if (file_exists($realfilepath)) {
+			  
 			  $fpw_size = getimagesize($realfilepath);
 			  
 			  if (!empty($fpw_x)) $fpw_y = intval($fpw_size[1] / ($fpw_size[0] / $fpw_x));  
@@ -309,10 +319,11 @@ function widget($args, $instance) {
 		  	$image_height = isset($fpw_y) ? ' height="' . $fpw_y . '"' : '';
 			$image_width = ' width="' . $fpw_x . '"';
 			
-			echo "<img title=\"" . $fpw_image_title . "\" src=\"" . $fpw_thumb . "\" alt=\"" . $fpw_image_title . "\"" . $image_width . $image_height . " />";
+			echo '<img title="' . $fpw_image_title . '" src="' . $fpw_thumb . '" alt="' . $fpw_image_alt . '"' . $image_width . $image_height . " />";
 		?></a><?php
-	
-   }}
+        
+		}
+   }
    
    else {
 	   
@@ -326,7 +337,8 @@ function widget($args, $instance) {
            </a>
 		   <?php
 		
-	   }}
+	   }
+	}
        
     }
 	
@@ -336,7 +348,7 @@ function widget($args, $instance) {
 	   
 	   ?>
        <p<?php if ($instance['class']) echo ' class="'.$instance['myclass'].'"'; ?>>
-       <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+       <a href="<?php the_permalink(); ?>" title="<?php echo $fpw_title_tag; ?>"><?php the_title(); ?></a>
        </p>
 	   <?php 
    
@@ -347,19 +359,15 @@ function widget($args, $instance) {
 	
 	$fpw_excerpt=$instance['excerpt'];
 	
-	if (!$fpw_excerpt) {
-		
-		$fpw_excerpt=$post->post_excerpt;
-		
-	}
+	if (!$fpw_excerpt) $fpw_excerpt=$post->post_excerpt;
 	
 /* in case the excerpt is not definded by the theme or anything else, the first 3 sentences of the content are given */
 	
 	if (!$fpw_excerpt) {
 		
-		$fpw_text=preg_replace('/\[caption(.*?)\[\/caption\]/', '', get_the_content());
+		$fpw_text = trim(preg_replace('/\s\s+/', ' ', str_replace(array("\r\n", "\n", "\r", "&nbsp;"), ' ', strip_tags(preg_replace('/\[caption(.*?)\[\/caption\]/', '', get_the_content())))));
 																					
-		if ($instance['noshorts']) $fpw_text=preg_replace('#\[(.*?)\]#', '', $fpw_text);
+		if ($instance['noshorts']) $fpw_text=strip_shortcodes($fpw_text);
 		
 		$fpw_short=array_slice(preg_split("/([\t.!?]+)/", $fpw_text, -1, PREG_SPLIT_DELIM_CAPTURE), 0, 6);
 			
@@ -373,9 +381,9 @@ function widget($args, $instance) {
 		
 		$fpw_rmtext=$instance['rmtext'];
 		
-		if (!$fpw_rmtext) $fpw_rmtext='[...]';
+		if (!$fpw_rmtext) $fpw_rmtext='[&#8230;]';
 		
-		$fpw_excerpt.=' <a href="'.get_permalink().'">'.$fpw_rmtext.'</a>';
+		$fpw_excerpt.=' <a href="'.get_permalink().'" title="'.$fpw_title_tag.'">'.$fpw_rmtext.'</a>';
 		
 	}
 		
