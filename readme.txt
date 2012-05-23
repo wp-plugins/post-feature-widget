@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: sidebar, widget, post, newspaper, feature, featured, image
 Requires at least: 2.7
 Tested up to: 3.4
-Stable tag: 3.0
+Stable tag: 3.2
 
 With the Featured Post Widget you can put a certain post in the focus and style it differently.
 
@@ -61,6 +61,16 @@ to the widget style to get a nice shadow down right of the container. This is no
 2. The widget's settings section
 
 == Changelog ==
+
+= 3.2 =
+
+* code overhaul
+* hooks into the [Ads Easy Plugin](http://wordpress.org/extend/plugins/adeasy) if Google AdSense Tags are in use
+
+= 3.1 =
+
+* Better functionality getting the excerpt
+* Fetches the first image also, when working with galleries
 
 = 3.0 =
 
@@ -147,3 +157,11 @@ Bugfix with excerpt
 = 3.0 =
 
 Some streamlining done, more fool proof.
+
+= 3.1 =
+
+Better functionality getting the excerpt and fetches the first image also, when working with galleries
+
+= 3.2 =
+
+Code overhaul and plugin hooks into the Ads Easy Plugin if Google AdSense Tags are in use

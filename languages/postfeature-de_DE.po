@@ -1,4 +1,4 @@
-# Copyright (C) 2010 
+# Copyright (C) 2012 
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
@@ -8,83 +8,119 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2011-12-25 01:06+0200\n"
+"PO-Revision-Date: 2012-05-23 13:57+0200\n"
 "Last-Translator: Waldemar Stoffel <stoffel@atelier-fuenf.de>\n"
 "Language-Team: Waldemar Stoffel <info@waldemarstoffel.com>\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: postfeature.php:53
-msgid "FAQ"
-msgstr "FAQ"
+#: class-lib/A5_ImageClasses.php:28
+msgid "Permalink to"
+msgstr "Link zu:"
 
-#: postfeature.php:54
-msgid "Donate"
-msgstr "Spenden"
-
-#: postfeature.php:62
+#: class-lib/FP_WidgetClass.php:18
 msgid "You can feature a certain post in this widget and display it, where and however you want, in your widget areas. A backup post can be given to avoid dubble content."
 msgstr "Mit diesem Widget kannst du einen Artikel deiner Wahl ins Highlight stellen. Ein Backup-Artikel kann eingegeben werden, um doppelten Inhalt zu vermeiden."
 
-#: postfeature.php:116
+#: class-lib/FP_WidgetClass.php:54
 msgid "Title:"
 msgstr "Titel:"
 
-#: postfeature.php:131
+#: class-lib/FP_WidgetClass.php:59
 msgid "Choose here the post, you want to appear in the widget."
 msgstr "Wähle hier den Artikel aus, der im Widget erscheinen soll."
 
-#: postfeature.php:135
-#: postfeature.php:139
+#: class-lib/FP_WidgetClass.php:62
+#: class-lib/FP_WidgetClass.php:78
 msgid "Take a random post"
 msgstr "Zufälligen Artikel auswählen"
 
-#: advanced-fpw.php:137
+#: class-lib/FP_WidgetClass.php:75
 msgid "Choose here the backup post. It will appear, when a single post page shows the featured article."
 msgstr "Wähle hier den Artikel, der als Backup erscheinen soll, falls der erste Artikel angezeigt wird."
 
-#: postfeature.php:127
+#: class-lib/FP_WidgetClass.php:92
 msgid "I want to style the first paragraph in this widget with my own class."
 msgstr "Ich möchte den ersten Abschnitt in diesem Widget mit meiner eigenen Klasse stylen."
 
-#: postfeature.php:131
+#: class-lib/FP_WidgetClass.php:97
 msgid "Write here the name of your class:"
 msgstr "Schreibe hier den Namen deiner Klasse:"
 
-#: postfeature.php:135
+#: class-lib/FP_WidgetClass.php:103
 msgid "Check to get the first image of the post as thumbnail."
 msgstr "Anklicken, wenn das erste Artikelbild als Thumbnail genommen werden soll."
 
-#: postfeature.php:140
+#: class-lib/FP_WidgetClass.php:108
 msgid "This is the width in px of the thumbnail (if choosing the first image):"
 msgstr "Hier bitte die Breite des Thumbnails in px eintragen (falls das erste Artikelbild genommen wird):"
 
-#: postfeature.php:146
+#: class-lib/FP_WidgetClass.php:114
 msgid "Check to <strong>not</strong> display the thumbnail of the post."
 msgstr "Anklicken, wenn <strong>kein</strong> Thumbnail gewünscht wird."
 
-#: postfeature.php:151
-msgid "Check to display the title of the post <strong>under</strong> the thumbnail (it is above by default)."
-msgstr "Anklicken, um den Titel <strong>unter</strong> dem Thumbnail zu haben (ist im Normalfall darüber)."
+#: class-lib/FP_WidgetClass.php:118
+msgid "Choose, whether or not to display the title and whether it comes above or under the thumbnail."
+msgstr "Wähle, ob der Titel angezeigt werden soll und ob er über oder unter dem Thumbnail ausgegeben wird."
 
-#: postfeature.php:156
+#: class-lib/FP_WidgetClass.php:121
+msgid "Above thumbnail"
+msgstr "Über dem Thumbnail"
+
+#: class-lib/FP_WidgetClass.php:121
+msgid "Under thumbnail"
+msgstr "Unter dem Thumbnail"
+
+#: class-lib/FP_WidgetClass.php:121
+msgid "Don&#39;t show title"
+msgstr "Keinen Titel ausgeben"
+
+#: class-lib/FP_WidgetClass.php:134
 msgid "If the excerpt of the post is not defined, by default the first 3 sentences of the post are showed. You can enter your own excerpt here, if you want."
 msgstr "Falls kein Auszug definiert ist, werden die ersten 3 Sätze des Artikels genommen. Hier kannst du einen eigenen Auszug eingeben."
 
-#: postfeature.php:156
+#: class-lib/FP_WidgetClass.php:140
+msgid "Check to have each sentense in a new line."
+msgstr "Anklicken, um jeden Satz in einer neuen Zeile zu haben."
+
+#: class-lib/FP_WidgetClass.php:145
+msgid "Check to <strong>not</strong> display the excerpt."
+msgstr "Anklicken, um <strong>keinen</strong> Auszug anzuzeigen."
+
+#: class-lib/FP_WidgetClass.php:150
 msgid "Check to suppress shortcodes in the widget (in case the content is showing)."
 msgstr "Anklicken, um Shortcode im Widget zu unterdrücken (falls der Artikel angezeigt wird)."
 
-#: postfeature.php:162
+#: class-lib/FP_WidgetClass.php:155
 msgid "Check to have an additional &#39;read more&#39; link at the end of the excerpt."
 msgstr "Anklicken, um einen zusätzlichen &#39;mehr lesen&#39;-Link am Ende des Auszugs anzuzeigen."
 
-#: postfeature.php:167
-msgid "Write here some text for the &#39;read more&#39; link. By default, it is [...]:"
-msgstr "Schreibe hier einen Text für den &#39;mehr lesen&#39;-Link. Standard ist [...]:"
+#: class-lib/FP_WidgetClass.php:160
+msgid "Write here some text for the &#39;read more&#39; link. By default, it is"
+msgstr "Schreibe hier einen Text für den &#39;mehr lesen&#39;-Link. Standard ist"
 
-#: postfeature.php:173
-msgid "Here you can finally style the widget. Simply type something like<br /><strong>border: 2px solid;<br />border-color: #cccccc;<br />padding: 10px;</strong><br />to get just a gray outline and a padding of 10 px. If you leave that section empty, your theme will style the widget."
-msgstr "Hier kannst du das Widget stylen. Einfach etwas wie<br /><strong>border: 2px solid;<br />border-color: #cccccc;<br />padding: 10px;</strong><br />eingeben, um eine graue Außenlinie und einen inneren Abstand von 10 px zu erzeugen. Wenn dieses Feld leer bleibt, übernimmt dein Theme das Styling des Widgets."
+#: class-lib/FP_WidgetClass.php:169
+msgid "Check if you want to invert the Google AdSense Tags that are defined with the Ads Easy Plugin. E.g. when they are turned off for the sidebar, they will appear in the widget."
+msgstr "Anklicken, wenn du die Google Adsense Tags umkehren willst, die im Ads Easy Plugin definiert wurden. Z.b. wenn sie für die Sidebar deaktiviert wurden, werden sie im Widget aktiv."
+
+#: class-lib/FP_WidgetClass.php:177
+msgid "Here you can finally style the widget. Simply type something like"
+msgstr "Here you can finally style the widget. Simply type something like"
+
+#: class-lib/FP_WidgetClass.php:177
+msgid "to get just a gray outline and a padding of 10 px. If you leave that section empty, your theme will style the widget."
+msgstr "to get just a gray outline and a padding of 10 px. If you leave that section empty, your theme will style the widget."
+
+#: postfeature.php:33
+msgid "Sorry, you don&#39;t have direct access to this page."
+msgstr "Sorry, du darfst diese Seite nicht direkt aufrufen."
+
+#: postfeature.php:56
+msgid "FAQ"
+msgstr "FAQ"
+
+#: postfeature.php:57
+msgid "Donate"
+msgstr "Spenden"
 
