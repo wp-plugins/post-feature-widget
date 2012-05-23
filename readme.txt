@@ -62,6 +62,11 @@ to the widget style to get a nice shadow down right of the container. This is no
 
 == Changelog ==
 
+= 3.2 =
+
+* code overhaul
+* hooks into the [Ads Easy Plugin](http://wordpress.org/extend/plugins/adeasy) if Google AdSense Tags are in use
+
 = 3.1 =
 
 * Better functionality getting the excerpt
@@ -156,3 +161,7 @@ Some streamlining done, more fool proof.
 = 3.1 =
 
 Better functionality getting the excerpt and fetches the first image also, when working with galleries
+
+= 3.2 =
+
+Code overhaul and plugin hooks into the Ads Easy Plugin if Google AdSense Tags are in use
