@@ -62,6 +62,11 @@ to the widget style to get a nice shadow down right of the container. This is no
 
 == Changelog ==
 
+= 3.3 =
+
+* small bugfixes and changes in the plugin framework
+* loads of new features added such as aligning the thumbnail and the text, displaying the date etc.
+
 = 3.2 =
 
 * code overhaul
@@ -165,3 +170,7 @@ Better functionality getting the excerpt and fetches the first image also, when 
 = 3.2 =
 
 Code overhaul and plugin hooks into the Ads Easy Plugin if Google AdSense Tags are in use
+
+= 3.3 =
+
+small bugfixes and changes of the plugin framework; more flexibility

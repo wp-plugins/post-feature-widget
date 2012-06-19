@@ -13,11 +13,10 @@ class Featured_Post_Widget extends WP_Widget {
  
 function Featured_Post_Widget() {
 
-	global $fpw_language_file;
+	$language_file = 'postfeature';
 	
-	$widget_opts = array( 'description' => __('You can feature a certain post in this widget and display it, where and however you want, in your widget areas. A backup post can be given to avoid dubble content.', $fpw_language_file) );
+	$widget_opts = array( 'description' => __('You can feature a certain post in this widget and display it, where and however you want, in your widget areas. A backup post can be given to avoid dubble content.', $language_file) );
 	$control_opts = array( 'width' => 400 );
-	
 	
 	parent::WP_Widget(false, $name = 'Featured Post Widget', $widget_opts, $control_opts);
 
@@ -25,7 +24,9 @@ function Featured_Post_Widget() {
  
 function form($instance) {
 	
-	global $fpw_language_file;
+	$language_file = 'postfeature';
+	
+	if ($instance['notext']) $instance['alignment'] = 'notext';
 	
 	$title = esc_attr($instance['title']);
 	$thumb = esc_attr($instance['thumb']);
@@ -33,12 +34,14 @@ function form($instance) {
 	$article = esc_attr($instance['article']);
 	$backup = esc_attr($instance['backup']);
 	$class = esc_attr($instance['class']);
-	$myclass = esc_attr($instance['myclass']);	
+	$headclass = esc_attr($instance['headclass']);
+	$dateclass = esc_attr($instance['dateclass']);
 	$width = esc_attr($instance['width']);
-	$headline = esc_attr($instance['headline']);	
+	$headline = esc_attr($instance['headline']);
+	$date = esc_attr($instance['date']);
 	$excerpt = esc_attr($instance['excerpt']);
 	$linespace = esc_attr($instance['linespace']);
-	$notext = esc_attr($instance['notext']);
+	$alignment = esc_attr($instance['alignment']);
 	$noshorts = esc_attr($instance['noshorts']);
 	$readmore = esc_attr($instance['readmore']);
 	$rmtext = esc_attr($instance['rmtext']);
@@ -46,145 +49,53 @@ function form($instance) {
 	$style = esc_attr($instance['style']);
 	
 	$features = get_posts('numberposts=-1');
- 
-?>
- 
-<p>
- <label for="<?php echo $this->get_field_id('title'); ?>">
- <?php _e('Title:', $fpw_language_file); ?>
- <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
- </label>
-</p>
-<p>
-  <label for="<?php echo $this->get_field_id( 'article' ); ?>"><?php _e('Choose here the post, you want to appear in the widget.', $fpw_language_file); ?></label>
-  <select id="<?php echo $this->get_field_id( 'article' ); ?>" name="<?php echo $this->get_field_name( 'article' ); ?>" class="widefat" style="width:100%;">
-  <?php
-	if (empty($article)) echo '<option value="">'.__('Take a random post', $fpw_language_file).'</option>';  
-	
 	foreach ( $features as $feature ) :
 	
-		$selected = ( $feature->ID == $article ) ? 'selected="selected"' : '' ;
-		$option = '<option value="'.$feature->ID.'" '.$selected.' >'.$feature->post_title.'</option>';
-		echo $option;
+		$posts[] = array($feature->ID, $feature->post_title );
 	
 	endforeach;
-  ?>
-  </select>
-</p>
-<p>
-  <label for="<?php echo $this->get_field_id( 'backup' ); ?>"><?php _e('Choose here the backup post. It will appear, when a single post page shows the featured article.', $fpw_language_file); ?></label>
-  <select id="<?php echo $this->get_field_id( 'backup' ); ?>" name="<?php echo $this->get_field_name( 'backup' ); ?>" class="widefat" style="width:100%;">
-  <?php
-	if (empty($backup)) echo '<option value="">'.__('Take a random post', $fpw_language_file).'</option>';
 	
-	foreach ( $features as $feature ) :
-		
-		$selected = ( $feature->ID == $backup ) ? 'selected="selected"' : '' ;
-		$option = '<option value="'.$feature->ID.'" '.$selected.' >'.$feature->post_title.'</option>';
-		echo $option;
+	$options = array (array('top', __('Above thumbnail', $language_file)) , array('bottom', __('Under thumbnail', $language_file)), array('none', __('Don&#39;t show title', $language_file)));
 	
-	endforeach;
-  ?>
-  </select>
-</p>
-<p>
- <label for="<?php echo $this->get_field_id('class'); ?>">
- <input id="<?php echo $this->get_field_id('class'); ?>" name="<?php echo $this->get_field_name('class'); ?>" type="checkbox" value="1" <?php echo checked( 1, $class, false ); ?> />&nbsp;<?php _e('I want to style the first paragraph in this widget with my own class.', $fpw_language_file); ?>
- </label>
-</p>
-<p>
- <label for="<?php echo $this->get_field_id('myclass'); ?>">
- <?php _e('Write here the name of your class:', $fpw_language_file); ?>
- <input class="widefat" id="<?php echo $this->get_field_id('myclass'); ?>" name="<?php echo $this->get_field_name('myclass'); ?>" type="text" value="<?php echo $myclass; ?>" />
- </label>
-</p>
-<p>
- <label for="<?php echo $this->get_field_id('image'); ?>">
- <input id="<?php echo $this->get_field_id('image'); ?>" name="<?php echo $this->get_field_name('image'); ?>" type="checkbox" value="1" <?php echo checked( 1, $image, false ); ?> />&nbsp;<?php _e('Check to get the first image of the post as thumbnail.', $fpw_language_file); ?>
- </label>
-</p>
-<p>
- <label for="<?php echo $this->get_field_id('width'); ?>">
- <?php _e('This is the width in px of the thumbnail (if choosing the first image):', $fpw_language_file); ?>
- <input size="4" id="<?php echo $this->get_field_id('width'); ?>" name="<?php echo $this->get_field_name('width'); ?>" type="text" value="<?php echo $width; ?>" />
- </label>
-</p>
-<p>
- <label for="<?php echo $this->get_field_id('thumb'); ?>">
- <input id="<?php echo $this->get_field_id('thumb'); ?>" name="<?php echo $this->get_field_name('thumb'); ?>" type="checkbox" value="1" <?php echo checked( 1, $thumb, false ); ?> />&nbsp;<?php _e('Check to <strong>not</strong> display the thumbnail of the post.', $fpw_language_file); ?>
- </label>
-</p>
-<p>
- <label for="<?php echo $this->get_field_id('headline'); ?>"><?php _e('Choose, whether or not to display the title and whether it comes above or under the thumbnail.', $fpw_language_file); ?></label>
- <select id="<?php echo $this->get_field_id('headline'); ?>" name="<?php echo $this->get_field_name('headline'); ?>" class="widefat" style="width:100%;">
- <?php
- 	$items = array ('top' => __('Above thumbnail', $fpw_language_file) , 'bottom' => __('Under thumbnail', $fpw_language_file), 'none' => __('Don&#39;t show title', $fpw_language_file));
-	foreach ($items as $key => $val) :
+	$items = array (array('none', __('Under image', $language_file)), array('right', __('Left of image', $language_file)), array('left', __('Right of image', $language_file)), array('notext', __('Don&#39;t show excerpt', $language_file)));
 	
-		$selected = ($key == $headline) ? 'selected="selected"' : '' ;
-		$option = '<option value="'.$key.'" '.$selected.' >'.$val.'</option>';
-		echo $option;
+	$date_options = array (array('top', __('Above post', $language_file)) , array('bottom', __('Under post', $language_file)), array('none', __('Don&#39;t show date', $language_file)));
 	
-	endforeach;
- ?>
- </select>
-</p>
-<p>
- <label for="<?php echo $this->get_field_id('excerpt'); ?>">
- <?php _e('If the excerpt of the post is not defined, by default the first 3 sentences of the post are showed. You can enter your own excerpt here, if you want.', $fpw_language_file); ?>
- <textarea class="widefat" id="<?php echo $this->get_field_id('excerpt'); ?>" name="<?php echo $this->get_field_name('excerpt'); ?>"><?php echo $excerpt; ?></textarea>
- </label>
-</p>
-<p>
- <label for="<?php echo $this->get_field_id('linespace'); ?>">
- <input id="<?php echo $this->get_field_id('linespace'); ?>" name="<?php echo $this->get_field_name('linespace'); ?>" type="checkbox" value="1" <?php echo checked( 1, $linespace, false ); ?> />&nbsp;<?php _e('Check to have each sentense in a new line.', $fpw_language_file); ?>
- </label>
-</p>
-<p>
- <label for="<?php echo $this->get_field_id('notext'); ?>">
- <input id="<?php echo $this->get_field_id('notext'); ?>" name="<?php echo $this->get_field_name('notext'); ?>" type="checkbox" value="1" <?php echo checked( 1, $notext, false ); ?> />&nbsp;<?php _e('Check to <strong>not</strong> display the excerpt.', $fpw_language_file); ?>
- </label>
-</p>
-<p>
- <label for="<?php echo $this->get_field_id('noshorts'); ?>">
- <input id="<?php echo $this->get_field_id('noshorts'); ?>" name="<?php echo $this->get_field_name('noshorts'); ?>" type="checkbox" value="1" <?php echo checked( 1, $noshorts, false ); ?> />&nbsp;<?php _e('Check to suppress shortcodes in the widget (in case the content is showing).', $fpw_language_file); ?>
- </label>
-</p>
-<p>
- <label for="<?php echo $this->get_field_id('readmore'); ?>">
- <input id="<?php echo $this->get_field_id('readmore'); ?>" name="<?php echo $this->get_field_name('readmore'); ?>" type="checkbox" value="1" <?php echo checked( 1, $readmore, false ); ?> />&nbsp;<?php _e('Check to have an additional &#39;read more&#39; link at the end of the excerpt.', $fpw_language_file); ?>
- </label>
-</p>
-<p>
- <label for="<?php echo $this->get_field_id('rmtext'); ?>">
- <?php echo __('Write here some text for the &#39;read more&#39; link. By default, it is', $fpw_language_file).' [&#8230;]:'; ?>
- <input class="widefat" id="<?php echo $this->get_field_id('rmtext'); ?>" name="<?php echo $this->get_field_name('rmtext'); ?>" type="text" value="<?php echo $rmtext; ?>" />
- </label>
-</p>
-<?php
-if (defined('AE_AD_TAGS') && AE_AD_TAGS==1) :
-?>
-<p>
- <label for="<?php echo $this->get_field_id('adsense'); ?>">
- <input id="<?php echo $this->get_field_id('adsense'); ?>" name="<?php echo $this->get_field_name('adsense'); ?>" type="checkbox" value="1" <?php echo checked( 1, $adsense, false ); ?> />&nbsp;<?php _e('Check if you want to invert the Google AdSense Tags that are defined with the Ads Easy Plugin. E.g. when they are turned off for the sidebar, they will appear in the widget.', $fpw_language_file); ?>
- </label>
-</p>
-<?php
-endif;
-?>
-<p>
- <label for="<?php echo $this->get_field_id('style'); ?>">
- <?php echo __('Here you can finally style the widget. Simply type something like', $fpw_language_file).'<br /><strong>border: 2px solid;<br />border-color: #cccccc;<br />padding: 10px;</strong><br />'.__('to get just a gray outline and a padding of 10 px. If you leave that section empty, your theme will style the widget.', $fpw_language_file); ?>
- <textarea class="widefat" id="<?php echo $this->get_field_id('style'); ?>" name="<?php echo $this->get_field_name('style'); ?>"><?php echo $style; ?></textarea>
- </label>
-</p>
-<script type="text/javascript"><!--
-jQuery(document).ready(function() {
-	jQuery("#<?php echo $this->get_field_id('excerpt'); ?>").autoResize();
-	jQuery("#<?php echo $this->get_field_id('style'); ?>").autoResize();
-});
---></script>
-<?php
+	$base_id = 'widget-'.$this->id_base.'-'.$this->number.'-';
+	$base_name = 'widget-'.$this->id_base.'['.$this->number.']';
+	
+	$field[] = array ('type' => 'text', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'title', 'label' => __('Title:', $language_file), 'value' => $title, 'class' => 'widefat', 'space' => 1);
+	$field[] = array ('type' => 'select', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'article', 'label' => __('Choose here the post, you want to appear in the widget.', $language_file), 'value' => $article, 'options' => $posts, 'default' => __('Take a random post', $language_file), 'class' => 'widefat', 'style' => 'width:100%', 'space' => 1);
+	$field[] = array ('type' => 'select', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'backup', 'label' => __('Choose here the backup post. It will appear, when a single post page shows the featured article.', $language_file), 'value' => $backup, 'options' => $posts, 'default' => __('Take a random post', $language_file), 'class' => 'widefat', 'style' => 'width:100%', 'space' => 1);	
+	$field[] = array ('type' => 'checkbox', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'class', 'label' => __('I want to style the headline amd the date in this widget with my own class(es).', $language_file), 'value' => $class, 'space' => 1);	
+	$field[] = array ('type' => 'text', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'headclass', 'label' => __('Write here the name of your class for the headline:', $language_file), 'value' => $headclass, 'class' => 'widefat', 'space' => 1);
+	$field[] = array ('type' => 'text', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'dateclass', 'label' => __('Write here the name of your class for the date:', $language_file), 'value' => $dateclass, 'class' => 'widefat', 'space' => 1);
+	$field[] = array ('type' => 'text', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'image', 'label' => sprintf(__('To use an image of the post instead of the post thumbnail, enter the number of that image. The word %s will bring the last image of the post.', $language_file), '&#39;last&#39;'), 'value' => $image, 'space' => 1);	
+	$field[] = array ('type' => 'number', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'width', 'label' => __('This is the width in px of the thumbnail (if choosing an image):', $language_file), 'value' => $width, 'size' => 4, 'step' => 1, 'space' => 1);
+	$field[] = array ('type' => 'checkbox', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'thumb', 'label' => __('Check to <strong>not</strong> display the thumbnail of the post.', $language_file), 'value' => $thumb, 'space' => 1);
+	$field[] = array ('type' => 'select', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'headline', 'label' => __('Choose, whether or not to display the title and whether it comes above or under the thumbnail.', $language_file), 'value' => $headline, 'options' => $options, 'class' => 'widefat', 'style' => 'width:100%', 'space' => 1);
+	$field[] = array ('type' => 'select', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'date', 'label' => __('Choose, whether or not to display the publishing date and whether it comes above or under the post.', $language_file), 'value' => $date, 'options' => $date_options, 'class' => 'widefat', 'style' => 'width:100%', 'space' => 1);
+	$field[] = array ('type' => 'textarea', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'excerpt', 'class' => 'widefat', 'label' => __('If the excerpt of the post is not defined, by default the first 3 sentences of the post are showed. You can enter your own excerpt here, if you want.', $language_file), 'value' => $excerpt, 'space' => 1);
+	$field[] = array ('type' => 'select', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'alignment', 'label' => __('Choose, whether or not to display the excerpt and whether it comes under the thumbnail or next to it (the latter will only work with an image of the post).', $language_file), 'value' => $alignment, 'options' => $items, 'class' => 'widefat', 'style' => 'width:100%', 'space' => 1);	
+	$field[] = array ('type' => 'checkbox', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'linespace', 'label' => __('Check to have each sentence in a new line.', $language_file), 'value' => $linespace, 'space' => 1);
+	$field[] = array ('type' => 'checkbox', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'noshorts', 'label' => __('Check to suppress shortcodes in the widget (in case the content is showing).', $language_file), 'value' => $noshorts, 'space' => 1);
+	$field[] = array ('type' => 'checkbox', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'readmore', 'label' => __('Check to have an additional &#39;read more&#39; link at the end of the excerpt.', $language_file), 'value' => $readmore, 'space' => 1);
+	$field[] = array ('type' => 'text', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'rmtext', 'label' => __('Write here some text for the &#39;read more&#39; link. By default, it is', $language_file).' [&#8230;]:', 'value' => $rmtext, 'class' => 'widefat', 'space' => 1);
+	
+	if (defined('AE_AD_TAGS') && AE_AD_TAGS==1) :
+	
+	$field[] = array ('type' => 'checkbox', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'adsense', 'label' => __('Check if you want to invert the Google AdSense Tags that are defined with the Ads Easy Plugin. E.g. when they are turned off for the sidebar, they will appear in the widget.', $language_file), 'value' => $adsense, 'space' => 1);
+	
+	endif;
+	$field[] = array ('type' => 'textarea', 'id_base' => $base_id, 'name_base' => $base_name, 'field_name' => 'style', 'class' => 'widefat', 'label' => __('Here you can finally style the widget. Simply type something like', $language_file).'<br /><strong>border: 2px solid;<br />border-color: #cccccc;<br />padding: 10px;</strong><br />'.__('to get just a gray outline and a padding of 10 px. If you leave that section empty, your theme will style the widget.', $language_file), 'value' => $style, 'space' => 1);
+	$field[] = array ('type' => 'resize', 'id_base' => $base_id, 'field_name' => array('excerpt', 'style'));
+
+	foreach ($field as $args) :
+	
+		$menu_item = new A5_WidgetControlClass($args);
+ 
+ 	endforeach;
+	
 } // form
  
 function update($new_instance, $old_instance) {
@@ -194,13 +105,17 @@ function update($new_instance, $old_instance) {
 	$instance['title'] = strip_tags($new_instance['title']);
 	$instance['article'] = strip_tags($new_instance['article']);
 	$instance['backup'] = strip_tags($new_instance['backup']);	 
-	$instance['thumb'] = strip_tags($new_instance['thumb']);	 
+	$instance['class'] = strip_tags($new_instance['class']);
+	$instance['headclass'] = strip_tags($new_instance['headclass']);
+	$instance['dateclass'] = strip_tags($new_instance['dateclass']);
+	$instance['thumb'] = strip_tags($new_instance['thumb']);	
 	$instance['image'] = strip_tags($new_instance['image']);	 
 	$instance['width'] = strip_tags($new_instance['width']);	 
 	$instance['headline'] = strip_tags($new_instance['headline']);
+	$instance['date'] = strip_tags($new_instance['date']);
 	$instance['excerpt'] = strip_tags($new_instance['excerpt']);
 	$instance['linespace'] = strip_tags($new_instance['linespace']);
-	$instance['notext'] = strip_tags($new_instance['notext']);
+	$instance['alignment'] = strip_tags($new_instance['alignment']);
 	$instance['noshorts'] = strip_tags($new_instance['noshorts']);
 	$instance['readmore'] = strip_tags($new_instance['readmore']);
 	$instance['rmtext'] = strip_tags($new_instance['rmtext']);
@@ -212,7 +127,9 @@ function update($new_instance, $old_instance) {
 
 function widget($args, $instance) {
 	
-global $fpw_language_file;
+$language_file = 'postfeature';
+
+if ($instance['notext']) $instance['alignment'] = 'notext';
 	
 extract( $args );
 
@@ -271,22 +188,32 @@ foreach($fpw_posts as $post) :
 
 $imagetags = new A5_ImageTags;
 
-$fpw_tags = $imagetags->get_tags($post, $fpw_language_file);
+$fpw_tags = $imagetags->get_tags($post, 'postfeature_cache', $language_file);
 
 $fpw_image_alt = $fpw_tags['image_alt'];
 $fpw_image_title = $fpw_tags['image_title'];
 $fpw_title_tag = $fpw_tags['title_tag'];
 
+$fpw_style = ($instance['alignment'] != 'notext' && $instance['alignment'] != 'none') ? ' style="text-align: '.$instance['alignment'].';"' : '';
+
+$eol = "\r\n";
+
 // headline, if wanted
 
 if ($instance['headline'] != 'none') :
 
-	$fpw_class = ($instance['class']) ? ' class="'.$instance['myclass'].'"' : '';
+	$head_class = ($instance['class']) ? ' class="'.$instance['headclass'].'"' : '';
 	
-	$eol = "\r\n";
+	$fpw_headline = $eol.'<p'.$head_class.$fpw_style.'><a href="'.get_permalink().'" title="'.$fpw_title_tag.'">'.get_the_title().'</a></p>';
+	
+endif;
 
-	$fpw_headline = '<p'.$fpw_class.'>'.$eol.'<a href="'.get_permalink().'" title="'.$fpw_title_tag.'">'.get_the_title().'</a>'.$eol.'</p>';
+if ($instance['date'] != 'none') :
+
+	$date_class = ($instance['class']) ? ' class="'.$instance['dateclass'].'"' : '';
 	
+	$post_date = $eol.'<p'.$date_class.$fpw_style.'>'.get_the_date().'</p>';
+
 endif;
 
 // thumbnail, if wanted
@@ -297,7 +224,9 @@ if (!$instance['thumb']) :
 	
 		$args = array (
 		'content' => $post->post_content,
-		'width' => $instance['width']
+		'width' => $instance['width'],
+		'option' => 'postfeature_cache',
+		'number' => $instance['image']
 		);
 		   
 		$fpw_image = new A5_Thumbnail;
@@ -310,11 +239,16 @@ if (!$instance['thumb']) :
 
 		$fpw_height = $fpw_image_info['thumb_height'];
 		
+		$fpw_float = ($instance['alignment'] != 'notext') ? $instance['alignment'] : 'none';
+		
+		if ($instance['alignment'] == 'left') $fpw_margin = ' margin-right: 1em;';
+		if ($instance['alignment'] == 'right') $fpw_margin = ' margin-left: 1em;';
+		
 		if ($fpw_thumb) :
 		
-			if ($fpw_width) $fpw_img_tag = '<img title="'.$fpw_image_title.'" src="'.$fpw_thumb.'" alt="'.$fpw_image_alt.'" width="'.$fpw_width.'" height="'.$fpw_height.'" />';
+			if ($fpw_width) $fpw_img_tag = '<img title="'.$fpw_image_title.'" src="'.$fpw_thumb.'" alt="'.$fpw_image_alt.'" width="'.$fpw_width.'" height="'.$fpw_height.'" style="float: '.$fpw_float.';'.$fpw_margin.'" />';
 				
-			else $fpw_img_tag = '<img title="'.$fpw_image_title.'" src="'.$fpw_thumb.'" alt="'.$fpw_image_alt.'" style="maxwidth: '.$instance['width'].';" />';
+			else $fpw_img_tag = '<img title="'.$fpw_image_title.'" src="'.$fpw_thumb.'" alt="'.$fpw_image_alt.'" style="maxwidth: '.$instance['width'].'; float: '.$fpw_float.';'.$fpw_margin.'" />';
 			
 		endif;
 		
@@ -324,13 +258,13 @@ if (!$instance['thumb']) :
 	
 	endif;
 	
-		$fpw_image = '<a href="'.get_permalink().'">'.$fpw_img_tag.'</a>'.$eol.'<div style="clear: both;"></div>'.$eol;
+		$fpw_image = '<a href="'.get_permalink().'">'.$fpw_img_tag.'</a>'.$eol;
 	
 endif;
 
 // excerpt, if wanted
 
-if (!$instance['notext']) :
+if (!$instance['alignment'] != 'notext') :
 
 $rmtext = ($instance['rmtext']) ? $instance['rmtext'] : '[&#8230;]';
 
@@ -348,7 +282,7 @@ $shortcode = ($instance['noshorts']) ? false : 1;
 	'rmtext' => $rmtext
 	);
 
-	$fpw_text = A5_Excerpt::get_excerpt($args);
+	$fpw_text = str_replace('<p>', '<p'.$fpw_style.'>', apply_filters('excerpt', A5_Excerpt::get_excerpt($args)));
 
 endif;
 
@@ -356,11 +290,19 @@ endif;
 
 if ($instance['headline'] == 'top') echo $fpw_headline.$eol;
 
+if ($instance['date'] == 'top') echo $post_date.$eol;
+
 if (!$instance['thumb']) echo $fpw_image;
+
+if ($instance['alignment'] == 'left' || $instance['alignment'] == 'right') echo $eol.do_shortcode($fpw_text).$eol;
+
+echo '<div style="clear: both;"></div>'.$eol;
 
 if ($instance['headline'] == 'bottom') echo $fpw_headline.$eol;
 
-if (!$instance['notext']) echo '<p>'.do_shortcode($fpw_text).'</p>'.$eol;
+if ($instance['alignment'] == 'none') echo do_shortcode($fpw_text).$eol;
+
+if ($instance['date'] == 'bottom') echo $post_date.$eol;
 
 endforeach;
 
