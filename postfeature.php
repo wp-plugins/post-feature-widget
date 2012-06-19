@@ -3,11 +3,11 @@
 Plugin Name: Featured Post Widget
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/featured-post-widget
 Description: Featured Post Widget is yet another plugin to make your blog a bit more newspaper-like. Just by choosing a post from a dropdown, you can put it in the 'featured' area and display thumbnail, headline, excerpt or all three of them (if available) in the fully customizable widget.
-Version: 3.2
+Version: 3.3
 Author: Waldemar Stoffel
 Author URI: http://www.waldemarstoffel.com
 License: GPL3
-Text Domain: postfeature
+Text Domain: post-feature-widget
 */
 
 /*  Copyright 2010 - 2012  Waldemar Stoffel  (email : stoffel@atelier-fuenf.de)
