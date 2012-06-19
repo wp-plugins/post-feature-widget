@@ -1,97 +1,177 @@
-# Copyright (C) 2010 
+# Copyright (C) 2012 
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/post-feature-widget\n"
-"POT-Creation-Date: 2011-01-27 08:11:18+00:00\n"
+"POT-Creation-Date: 2012-06-19 22:23:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: postfeature.php:53
-msgid "FAQ"
+#: class-lib/A5_ImageClasses.php:40
+msgid "Permalink to"
 msgstr ""
 
-#: postfeature.php:54
-msgid "Donate"
-msgstr ""
-
-#: postfeature.php:62
+#: class-lib/FP_WidgetClass.php:18
 msgid ""
-"You can feature a certain post in this widget and display it, where and however you want, in your widget areas. A backup post can be given to avoid dubble content."
+"You can feature a certain post in this widget and display it, where and "
+"however you want, in your widget areas. A backup post can be given to avoid "
+"dubble content."
 msgstr ""
 
-#: postfeature.php:116
+#: class-lib/FP_WidgetClass.php:58
+msgid "Above thumbnail"
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:58
+msgid "Under thumbnail"
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:58
+msgid "Don&#39;t show title"
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:60
+msgid "Under image"
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:60
+msgid "Left of image"
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:60
+msgid "Right of image"
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:60
+msgid "Don&#39;t show excerpt"
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:62
+msgid "Above post"
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:62
+msgid "Under post"
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:62
+msgid "Don&#39;t show date"
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:67
 msgid "Title:"
 msgstr ""
 
-#: postfeature.php:131
+#: class-lib/FP_WidgetClass.php:68
 msgid "Choose here the post, you want to appear in the widget."
 msgstr ""
 
-#: postfeature.php:135
-#: postfeature.php:139
+#: class-lib/FP_WidgetClass.php:68 class-lib/FP_WidgetClass.php:69
 msgid "Take a random post"
 msgstr ""
 
-#: postfeature.php:137
-msgid "Choose here the backup post. It will appear, when a single post page shows the featured article."
-msgstr ""
-
-#: postfeature.php:127
-msgid "I want to style the first paragraph in this widget with my own class."
-msgstr ""
-
-#: postfeature.php:131
-msgid "Write here the name of your class:"
-msgstr ""
-
-#: postfeature.php:135
-msgid "Check to get the first image of the post as thumbnail."
-msgstr ""
-
-#: postfeature.php:140
-msgid "This is the width in px of the thumbnail (if choosing the first image):"
-msgstr ""
-
-#: postfeature.php:146
-msgid "Check to <strong>not</strong> display the thumbnail of the post."
-msgstr ""
-
-#: postfeature.php:151
+#: class-lib/FP_WidgetClass.php:69
 msgid ""
-"Check to display the title of the post <strong>under</strong> the thumbnail "
-"(it is above by default)."
+"Choose here the backup post. It will appear, when a single post page shows "
+"the featured article."
 msgstr ""
 
-#: postfeature.php:156
+#: class-lib/FP_WidgetClass.php:70
+msgid ""
+"I want to style the headline and the date in this widget with my own class"
+"(es)."
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:71
+msgid "Write here the name of your class for the headline:"
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:72
+msgid "Write here the name of your class for the date:"
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:73
+msgid ""
+"To use an image of the post instead of the post thumbnail, enter the number "
+"of that image. The word %s will bring the last image of the post."
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:74
+msgid "This is the width in px of the thumbnail (if choosing an image):"
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:75
+msgid "Check to %snot%s display the thumbnail of the post."
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:76
+msgid ""
+"Choose, whether or not to display the title and whether it comes above or "
+"under the thumbnail."
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:77
+msgid ""
+"Choose, whether or not to display the publishing date and whether it comes "
+"above or under the post."
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:78
 msgid ""
 "If the excerpt of the post is not defined, by default the first 3 sentences "
 "of the post are showed. You can enter your own excerpt here, if you want."
 msgstr ""
 
-#: postfeature.php:158
-msgid "Check to suppress shortcodes in the widget (in case the content is showing)."
+#: class-lib/FP_WidgetClass.php:79
+msgid ""
+"Choose, whether or not to display the excerpt and whether it comes under the "
+"thumbnail or next to it (the latter will only work with an image of the "
+"post)."
 msgstr ""
 
-#: postfeature.php:162
-msgid ""
-"Check to have an additional &#39;read more&#39; link at the end of the excerpt."
+#: class-lib/FP_WidgetClass.php:80
+msgid "Check to have each sentence in a new line."
 msgstr ""
 
-#: postfeature.php:167
+#: class-lib/FP_WidgetClass.php:81
 msgid ""
-"Write here some text for the &#39;read more&#39; link. By default, it is [...]:"
+"Check to suppress shortcodes in the widget (in case the content is showing)."
 msgstr ""
 
-#: postfeature.php:173
+#: class-lib/FP_WidgetClass.php:82
 msgid ""
-"Here you can finally style the widget. Simply type something like<br /"
-"><strong>border: 2px solid;<br />border-color: #cccccc;<br />padding: 10px;</"
-"strong><br />to get just a gray outline and a padding of 10 px. If you leave "
-"that section empty, your theme will style the widget."
+"Check to have an additional &#39;read more&#39; link at the end of the "
+"excerpt."
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:83
+msgid ""
+"Write here some text for the &#39;read more&#39; link. By default, it is"
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:87
+msgid ""
+"Check if you want to invert the Google AdSense Tags that are defined with "
+"the Ads Easy Plugin. E.g. when they are turned off for the sidebar, they "
+"will appear in the widget."
+msgstr ""
+
+#: class-lib/FP_WidgetClass.php:90
+msgid ""
+"Here you can finally style the widget. Simply type something like%sto get "
+"just a gray outline and a padding of 10 px. If you leave that section empty, "
+"your theme will style the widget."
+msgstr ""
+
+#: postfeature.php:102
+msgid "FAQ"
+msgstr ""
+
+#: postfeature.php:103
+msgid "Donate"
 msgstr ""
