@@ -6,7 +6,7 @@
  *
  * @ A5 Plugin Framework
  *
- * Gets the excerpt of a post accodring to some parameters
+ * Gets the excerpt of a post according to some parameters
  *
  */
 
