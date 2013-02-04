@@ -2,17 +2,17 @@
 Contributors: tepelstreel
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D8AVGNDYYUNA2
 Tags: sidebar, widget, post, newspaper, feature, featured, image
-Requires at least: 2.7
-Tested up to: 3.4
-Stable tag: 3.3
+Requires at least: 2.9
+Tested up to: 3.6
+Stable tag: 3.4
 
 With the Featured Post Widget you can put a certain post in the focus and style it differently.
 
 == Description ==
 
-The Featured Post Widget is a customizable multiwidget, that displays a single post in the widget area. You can decide, whether or not the post thumbnail is displayed, whether the post title is above or beneath the thumbnail and a couple of more things. And of course, you can style the widget individually.
+The Featured Post Widget is a fully customizable widget, that displays a single post. You can decide, whether or not the post thumbnail is displayed, whether the post title is above or beneath the thumbnail and a couple of more things. And of course, you can style the widget individually.
 
-The plugin was tested up to WP 3.4 and should work with versions down to 2.7 but was never tested.
+The plugin was tested up to WP 3.6 and should work with versions down to 2.9 but was never tested.
 
 == Installation ==
 
@@ -61,6 +61,11 @@ to the widget style to get a nice shadow down right of the container. This is no
 2. The widget's settings section
 
 == Changelog ==
+
+= 3.4 =
+
+* all possible errors that could cause the image to not resize are fixed
+* some small features added (possibility to give a post ID, order of the headline, date, excerpt etc.)
 
 = 3.3 =
 
@@ -174,3 +179,7 @@ Code overhaul and plugin hooks into the Ads Easy Plugin if Google AdSense Tags a
 = 3.3 =
 
 small bugfixes and changes of the plugin framework; more flexibility
+
+= 3.4 =
+
+some new features added; more stable and better performance

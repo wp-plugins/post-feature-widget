@@ -2,19 +2,19 @@
 
 /**
  *
- * Class A5 Image Tags
+ * Class A5 Images
  *
  * @ A5 Plugin Framework
  *
  * Gets the alt and title tag for attachments
  *
+ * Gets all thumbnail related stuff
+ *
  */
 
-class A5_ImageTags {
+class A5_Image {
 	
-	var $tags;
-	
-	function get_tags($post, $image_cache, $language_file) {
+	public static function tags($post, $image_cache, $language_file) {
 		
 		$options = get_option($image_cache);
 		
@@ -64,49 +64,36 @@ class A5_ImageTags {
 		
 		endif;
 		
-		$this->tags = array(
+		$tags = array(
 		'image_alt' => $image_alt,
 		'image_title' => $image_title,
 		'title_tag' => $title_tag
 		);
 		
-		return $this->tags;
+		return $tags;
 	
-	}
-	
-}
-
-
-/**
- *
- * Class A5 Thumbnail
- *
- * @ A5 Plugin Framework
- *
- * Gets all thumbnail related stuff
- *
- */
-
-class A5_Thumbnail {
-	
-	var $image_info;
+	} // tags
 	
 	// getting one image of a post with available sizes as the post thumbnail if there is no number specified, the first image is taken by default
 	// the last image will be taken, if the number is bigger than the amount of images in the post
 	
-	function get_thumbnail($args) {
+	public static function thumbnail($args) {
 		
 		extract($args);
+		
+		if (!$thumb) : 
 	
-		$image = preg_match_all('/<\s*img[^>]+src\s*=\s*["\']?([^\s"\']+)["\']?[\s\/>]+/', do_shortcode($content), $matches);
-		
-		if (!$number) $number = 1;
-		
-		if ($number == 'last' || $number > count($matches [1])) $number = count($matches [1]);
-		
-		$number -= 1;
-		
-		$thumb = $matches [1] [$number];
+			$image = preg_match_all('/<\s*img[^>]+src\s*=\s*["\']?([^\s"\']+)["\']?[\s\/>]+/', do_shortcode($content), $matches);
+			
+			$number = ($number) ? $number : 1;
+			
+			if ($number == 'last' || $number > count($matches [1])) $number = count($matches [1]);
+			
+			$number -= 1;
+			
+			$thumb = $matches [1] [$number];
+			
+		endif;
 		
 		if (empty($thumb)) return false;
 		
@@ -129,7 +116,7 @@ class A5_Thumbnail {
 			
 			if (!$thumb_width) : 
 			
-				$size=$this->get_size($thumb);
+				$size = self::get_size($thumb);
 				
 				$thumb_width = $size['width'];
 				
@@ -141,31 +128,17 @@ class A5_Thumbnail {
 				
 			endif;
 			
-			if ($thumb_width && $height) :
+			$args = array(
+				'thumb_width' => $thumb_width,
+				'thumb_height' => $thumb_height,
+				'width' => $width,
+				'height' => $height
+			);
 			
-				if ($ratio > 1) :
-						
-					$thumb_height = intval($thumb_height/($thumb_width/$width));
-					
-					$thumb_width = $width;
-						
-					else :
-					
-					$thumb_width = intval($thumb_width/($thumb_height/$height));
-					
-					$thumb_height = $height;
-					
-				endif;
-				
-			else :
+			$new_size = self::count_size($args);
 			
-				$ratio = $thumb_width/$thumb_height;
-			
-				$thumb_width = $width;
-				
-				$thumb_height = intval($thumb_width/$ratio);
-		
-			endif;
+			$thumb_width = $new_size['width'];
+			$thumb_height = $new_size['height'];
 			
 			$cache[$thumb]['width'] = $thumb_width;
 			$cache[$thumb]['height'] = $thumb_height;
@@ -176,45 +149,90 @@ class A5_Thumbnail {
 			
 		endif;
 	
-		$this->image_info = array (
-		'thumb' => $thumb,
-		'thumb_width' => $thumb_width,
-		'thumb_height' => $thumb_height
+		$image_info = array (
+			'thumb' => $thumb,
+			'thumb_width' => $thumb_width,
+			'thumb_height' => $thumb_height
 		);
 		
-		return $this->image_info;
+		return $image_info;
 	
 	}
 	
 	// getting the image size if having no tags in the image string
 	
-	function get_size($img) {
+	public static function get_size($img) {
+		
+		$image_info = wp_get_image_editor($img);
+			
+		if ( ! is_wp_error($image_info) ) :
+			
+			$size = $image_info->get_size();
+			
+		else :
 	
-		$uploaddir = wp_upload_dir();
-		
-		$img = str_replace($uploaddir['baseurl'], $uploaddir['basedir'], $img);
-		
-		$imgsize = @getimagesize($img);
-		
-		if (empty($imgsize)) :
-		
-			if ( ! function_exists( 'download_url' ) ) require_once ABSPATH.'/wp-admin/includes/file.php';
-		
-			$tmp_image = download_url($image);
+			$uploaddir = wp_upload_dir();
 			
-			if (!is_wp_error($tmp_image)) $imgsize = @getimagesize($img);
+			$img = str_replace($uploaddir['baseurl'], $uploaddir['basedir'], $img);
 			
-			@unlink($tmp_image);
+			$imgsize = @getimagesize($img);
 			
+			if (empty($imgsize)) :
+			
+				if ( ! function_exists( 'download_url' ) ) require_once ABSPATH.'/wp-admin/includes/file.php';
+			
+				$tmp_image = download_url($image);
+				
+				if (!is_wp_error($tmp_image)) $imgsize = @getimagesize($img);
+				
+				@unlink($tmp_image);
+				
+			endif;
+			
+			$size = array ( 'width' => $imgsize[0], 'height' => $imgsize[1] );
+		
 		endif;
-		
-		$size = array ( 'width' => $imgsize[0], 'height' => $imgsize[1] );
 		
 		return $size;
 	
 	}
 	
+	// counting the new size of the image
+	
+	public static function count_size($args) {
+		
+		extract($args);
+		
+		if ($thumb_width && $height) :
+			
+			if ($ratio > 1) :
+					
+				$thumb_height = intval($thumb_height/($thumb_width/$width));
+				
+				$thumb_width = $width;
+					
+				else :
+				
+				$thumb_width = intval($thumb_width/($thumb_height/$height));
+				
+				$thumb_height = $height;
+				
+			endif;
+			
+		else :
+		
+			$ratio = $thumb_width/$thumb_height;
+		
+			$thumb_width = $width;
+			
+			$thumb_height = intval($thumb_width/$ratio);
+	
+		endif;	
+		
+		return array('width' => $thumb_width, 'height' => $thumb_height);
+	
+	}
+	
 }
-
 
 ?>
