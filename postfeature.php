@@ -3,7 +3,7 @@
 Plugin Name: Featured Post Widget
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/featured-post-widget
 Description: Featured Post Widget is yet another plugin to make your blog a bit more newspaper-like. Just by choosing a post from a dropdown, you can put it in the 'featured' area and display thumbnail, headline, excerpt or all three of them (if available) in the fully customizable widget.
-Version: 3.3
+Version: 3.4.1
 Author: Waldemar Stoffel
 Author URI: http://www.waldemarstoffel.com
 License: GPL3
@@ -30,26 +30,27 @@ Text Domain: post-feature-widget
 
 /* Stop direct call */
 
-if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) die('Sorry, you don&#39;t have direct access to this page.');
+if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) die('Sorry, you don\'t have direct access to this page.');
 
 /* load classes */
 
 define( 'PFW_PATH', plugin_dir_path(__FILE__) );
 
-if (!class_exists('A5_Thumbnail')) require_once PFW_PATH.'class-lib/A5_ImageClasses.php';
+if (!class_exists('A5_Image')) require_once PFW_PATH.'class-lib/A5_ImageClass.php';
 if (!class_exists('A5_Excerpt')) require_once PFW_PATH.'class-lib/A5_ExcerptClass.php';
-if (!class_exists('A5_WidgetControlClass')) require_once PFW_PATH.'class-lib/A5_WidgetControlClass.php';
+if (!class_exists('A5_FormField')) require_once PFW_PATH.'class-lib/A5_FormFieldClass.php';
 if (!class_exists('Featured_Post_Widget')) require_once PFW_PATH.'class-lib/FP_WidgetClass.php';
+if (!function_exists('a5_textarea')) require_once PFW_PATH.'includes/A5_field-functions.php';
 
 class PostFeaturePlugin {
+	
+	const language_file = 'postfeature';
 
-	function PostFeaturePlugin() {
+	function __construct() {
 
 		/* import laguage files */
 		
-		$language_file = 'postfeature';
-		
-		load_plugin_textdomain($language_file, false , basename(dirname(__FILE__)).'/languages');
+		load_plugin_textdomain(self::language_file, false , basename(dirname(__FILE__)).'/languages');
 		
 		add_action('admin_enqueue_scripts', array($this, 'js_sheet'));
 		
@@ -94,13 +95,11 @@ class PostFeaturePlugin {
 	
 	function register_links($links, $file) {
 		
-		$language_file = 'postfeature';
-		
 		$base = plugin_basename(__FILE__);
 		if ($file == $base) :
 		
-			$links[] = '<a href="http://wordpress.org/extend/plugins/post-feature-widget/faq/" target="_blank">'.__('FAQ', $language_file).'</a>';
-			$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D8AVGNDYYUNA2" target="_blank">'.__('Donate', $language_file).'</a>';
+			$links[] = '<a href="http://wordpress.org/extend/plugins/post-feature-widget/faq/" target="_blank">'.__('FAQ', self::language_file).'</a>';
+			$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D8AVGNDYYUNA2" target="_blank">'.__('Donate', self::language_file).'</a>';
 		
 		endif;
 		
@@ -110,6 +109,6 @@ class PostFeaturePlugin {
 
 } // class
 
-$postfeatureplugin = new PostFeaturePlugin;
+$PostFeaturePlugin = new PostFeaturePlugin;
 
 ?>
