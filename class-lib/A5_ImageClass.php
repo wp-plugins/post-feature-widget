@@ -31,10 +31,10 @@ class A5_Image {
 			setup_postdata($post);
 			
 			$args = array(
-			'post_type' => 'attachment',
-			'numberposts' => 1,
-			'post_status' => null,
-			'post_parent' => $post->ID
+				'post_type' => 'attachment',
+				'numberposts' => 1,
+				'post_status' => null,
+				'post_parent' => $post->ID
 			);
 			
 			$title_tag = __('Permalink to', $language_file).' '.esc_attr($post->post_title);
@@ -65,9 +65,9 @@ class A5_Image {
 		endif;
 		
 		$tags = array(
-		'image_alt' => $image_alt,
-		'image_title' => $image_title,
-		'title_tag' => $title_tag
+			'image_alt' => $image_alt,
+			'image_title' => $image_title,
+			'title_tag' => $title_tag
 		);
 		
 		return $tags;
@@ -81,17 +81,17 @@ class A5_Image {
 		
 		extract($args);
 		
-		if (!$thumb) : 
+		if (!isset($thumb)) : 
 	
 			$image = preg_match_all('/<\s*img[^>]+src\s*=\s*["\']?([^\s"\']+)["\']?[\s\/>]+/', do_shortcode($content), $matches);
 			
-			$number = ($number) ? $number : 1;
+			$number = (!empty($number)) ? $number : 1;
 			
 			if ($number == 'last' || $number > count($matches [1])) $number = count($matches [1]);
 			
-			$number -= 1;
+			if ($number > 0) $number -= 1;
 			
-			$thumb = $matches [1] [$number];
+			if ($image != 0) $thumb = $matches [1] [$number];
 			
 		endif;
 		
@@ -107,28 +107,19 @@ class A5_Image {
 			$thumb_height = $cache[$thumb]['height'];
 		
 		else :
-		
-			$thumb_width = preg_match_all('/width\s*=\s*["\']?([^\s"\']+)["\']/', $matches [0] [$number], $size);
-			$thumb_width = $size[1] [0];
 			
-			$thumb_height = preg_match_all('/height\s*=\s*["\']?([^\s"\']+)["\']/', $matches [0] [$number], $size);
-			$thumb_height = $size[1] [0];
+			$size = self::get_size($thumb);
 			
-			if (!$thumb_width) : 
+			$thumb_width = $size['width'];
 			
-				$size = self::get_size($thumb);
-				
-				$thumb_width = $size['width'];
-				
-				$thumb_height = $size['height'];
-				
-				if (!$thumb_width) return false;
-				
-				$ratio = $thumb_width/$thumb_height;
-				
-			endif;
+			$thumb_height = $size['height'];
+			
+			if (!$thumb_width) return false;
+			
+			$ratio = $thumb_width/$thumb_height;
 			
 			$args = array(
+				'ratio' => $ratio,
 				'thumb_width' => $thumb_width,
 				'thumb_height' => $thumb_height,
 				'width' => $width,
@@ -181,7 +172,7 @@ class A5_Image {
 			
 				if ( ! function_exists( 'download_url' ) ) require_once ABSPATH.'/wp-admin/includes/file.php';
 			
-				$tmp_image = download_url($image);
+				$tmp_image = download_url($img);
 				
 				if (!is_wp_error($tmp_image)) $imgsize = @getimagesize($img);
 				
@@ -231,6 +222,36 @@ class A5_Image {
 		
 		return array('width' => $thumb_width, 'height' => $thumb_height);
 	
+	}
+	
+	// getting the default size
+	
+	public static function get_default($plugin_width = false) {
+	
+		if (!$plugin_width) :
+			
+			$width = get_option('thumbnail_size_w');
+			
+			if (!empty($width)) $width = 150;
+			
+			$height = get_option('thumbnail_size_h');
+			
+			if (!empty($height)) :
+			
+				$height = 150;
+				
+			endif;
+			
+		else : 
+		
+			$width = $plugin_width;
+			
+			$height = false;
+		
+		endif;
+		
+		return array ($width, $height);
+		
 	}
 	
 }

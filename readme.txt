@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: sidebar, widget, post, newspaper, feature, featured, image
 Requires at least: 2.9
 Tested up to: 3.6
-Stable tag: 3.4
+Stable tag: 3.4.1
 
 With the Featured Post Widget you can put a certain post in the focus and style it differently.
 
@@ -61,6 +61,10 @@ to the widget style to get a nice shadow down right of the container. This is no
 2. The widget's settings section
 
 == Changelog ==
+
+= 3.4.1 =
+
+* small bugfix
 
 = 3.4 =
 
@@ -183,3 +187,7 @@ small bugfixes and changes of the plugin framework; more flexibility
 = 3.4 =
 
 some new features added; more stable and better performance
+
+= 3.4.1 =
+
+small bugfix
