@@ -36,6 +36,7 @@ class Featured_Post_Widget extends WP_Widget {
 			'headclass' => NULL,
 			'dateclass' => NULL,
 			'width' => NULL,
+			'imgborder' => NULL,
 			'headline' => NULL,
 			'h' => 3,
 			'date' => NULL,
@@ -44,6 +45,7 @@ class Featured_Post_Widget extends WP_Widget {
 			'alignment' => NULL,
 			'noshorts' => false,
 			'readmore' => false,
+			'rmclass' => NULL,
 			'rmtext' => NULL,
 			'filter' => NULL,
 			'style' => NULL
@@ -69,14 +71,21 @@ class Featured_Post_Widget extends WP_Widget {
 		$alignment = esc_attr($instance['alignment']);
 		$noshorts = esc_attr($instance['noshorts']);
 		$readmore = esc_attr($instance['readmore']);
+		$rmclass = esc_attr($instance['rmclass']);
 		$rmtext = esc_attr($instance['rmtext']);
 		$style = esc_attr($instance['style']);
 		$h=esc_attr($instance['h']);
 		$filter=esc_attr($instance['filter']);
 		$id=esc_attr($instance['id']);
 		$bid=esc_attr($instance['bid']);
+		$imgborder=esc_attr($instance['imgborder']);
 		
-		$features = get_posts('numberposts=-1');
+		$args = array(
+			'posts_per_page' => -1,
+			'post_status' => 'publish'
+		);
+		
+		$features = get_posts($args);
 		foreach ( $features as $feature ) :
 		
 			$posts[] = array($feature->ID, $feature->post_title );
@@ -105,17 +114,19 @@ class Featured_Post_Widget extends WP_Widget {
 		a5_text_field($base_id.'dateclass', $base_name.'[dateclass]', $dateclass, __('Write here the name of your class for the date:', self::language_file), array('space' => true, 'class' => 'widefat'));
 		a5_text_field($base_id.'image', $base_name.'[image]', $image, sprintf(__('To use an image of the post instead of the post thumbnail, enter the number of that image. The word %s will bring the last image of the post.', self::language_file), '&#39;last&#39;'), array('space' => true, 'size' => 6));
 		a5_number_field($base_id.'width', $base_name.'[width]', $width, __('Width of the thumbnail (in px):', self::language_file), array('space' => true, 'size' => 4, 'step' => 1));
+		a5_text_field($base_id.'imgborder', $base_name.'[imgborder]', $imgborder, sprintf(__('If wanting a border around the image, write the style here. %s would make it a black border, 1px wide.', self::language_file), '<strong>1px solid #000000</strong>'), array('space' => true, 'class' => 'widefat'));
 		a5_checkbox($base_id.'thumb', $base_name.'[thumb]', $thumb, sprintf(__('Check to %snot%s display the thumbnail of the post.', self::language_file), '<strong>', '</strong>'), array('space' => true));
 		a5_select($base_id.'headline', $base_name.'[headline]', $options, $headline, __('Choose, whether or not to display the title and whether it comes above or under the thumbnail.', self::language_file), false, array('space' => true));
 		a5_select($base_id.'h', $base_name.'[h]', $headings, $h, __('Weight of the Post Title:', self::language_file), false, array('space' => true));
 		a5_select($base_id.'date', $base_name.'[date]', $date_options, $date, __('Choose, whether or not to display the publishing date and whether it comes above or under the post.', self::language_file), false, array('space' => true));
-		a5_textarea($base_id.'excerpt', $base_name.'[excerpt]', $excerpt, __('If the excerpt of the post is not defined, by default the first 3 sentences of the post are showed. You can enter your own excerpt here, if you want.', self::language_file), array('space' => true, 'class' => 'widefat', 'style' => 'height: 60px;'));
+		a5_textarea($base_id.'excerpt', $base_name.'[excerpt]', $excerpt, __('If the excerpt of the post is not defined, by default the first 3 sentences of the post are shown. You can enter your own excerpt here, if you want.', self::language_file), array('space' => true, 'class' => 'widefat', 'style' => 'height: 60px;'));
 		a5_select($base_id.'alignment', $base_name.'[alignment]', $items, $alignment, __('Choose, whether or not to display the excerpt and whether it comes under the thumbnail or next to it.', self::language_file), false, array('space' => true));
 		a5_checkbox($base_id.'linespace', $base_name.'[linespace]', $linespace, __('Check to have each sentence in a new line.', self::language_file), array('space' => true));
 		a5_checkbox($base_id.'noshorts', $base_name.'[noshorts]', $noshorts, __('Check to suppress shortcodes in the widget (in case the content is showing).', self::language_file), array('space' => true));
 		a5_checkbox($base_id.'filter', $base_name.'[filter]', $filter, __('Check to return the excerpt unfiltered (might avoid interferences with other plugins).', self::language_file), array('space' => true));
 		a5_checkbox($base_id.'readmore', $base_name.'[readmore]', $readmore, __('Check to have an additional &#39;read more&#39; link at the end of the excerpt.', self::language_file), array('space' => true));	
 		a5_text_field($base_id.'rmtext', $base_name.'[rmtext]', $rmtext, sprintf(__('Write here some text for the &#39;read more&#39; link. By default, it is %s:', self::language_file), '[&#8230;]'), array('space' => true, 'class' => 'widefat'));
+		a5_text_field($base_id.'rmclass', $base_name.'[rmclass]', $rmclass, __('If you want to style the &#39;read more&#39; link, you can enter a class here.', self::language_file), array('space' => true, 'class' => 'widefat'));	
 		a5_textarea($base_id.'style', $base_name.'[style]', $style, sprintf(__('Here you can finally style the widget. Simply type something like%sto get just a gray outline and a padding of 10 px. If you leave that section empty, your theme will style the widget.', self::language_file), '<br /><strong>border: 2px solid;<br />border-color: #cccccc;<br />padding: 10px;</strong><br />'), array('space' => true, 'class' => 'widefat', 'style' => 'height: 60px;'));
 		a5_resize_textarea(array($base_id.'excerpt', $base_id.'style'), true);
 		
@@ -142,14 +153,17 @@ class Featured_Post_Widget extends WP_Widget {
 		$instance['noshorts'] = strip_tags($new_instance['noshorts']);
 		$instance['readmore'] = strip_tags($new_instance['readmore']);
 		$instance['rmtext'] = strip_tags($new_instance['rmtext']);
+		$instance['rmclass'] = strip_tags($new_instance['rmclass']);
 		$instance['h'] = strip_tags($new_instance['h']);
 		$instance['style'] = strip_tags($new_instance['style']);
 		$instance['filter'] = strip_tags($new_instance['filter']);
 		$instance['id'] = strip_tags($new_instance['id']);
 		$instance['bid'] = strip_tags($new_instance['bid']);
+		$instance['imgborder'] = strip_tags($new_instance['imgborder']);
 		
 		return $instance;
-	}
+		
+	} // update
 	
 	function widget($args, $instance) {
 		
@@ -177,7 +191,7 @@ class Featured_Post_Widget extends WP_Widget {
 		
 		if ( $title ) echo $before_title . $title . $after_title;
 		
-		global $wp_query;
+		global $wp_query, $post;
 		
 		$article = ($instance['id']) ? $instance['id'] : $instance['article'];
 		$backup = ($instance['bid']) ? $instance['bid'] : $instance['backup'];
@@ -190,8 +204,6 @@ class Featured_Post_Widget extends WP_Widget {
 		if ($fpw_post=='p=') $fpw_post = 'posts_per_page=1&orderby=rand';
 		
 		/* This is the actual function of the plugin, it fills the widget with the customized post */
-		
-		global $post;
 		
 		$fpw_posts = new WP_Query($fpw_post);
 		
@@ -234,10 +246,12 @@ class Featured_Post_Widget extends WP_Widget {
 				$default = A5_Image::get_default($instance['width']);
 				
 				$fpw_float = ($instance['alignment'] != 'notext') ? $instance['alignment'] : 'none';
-					
+				
 				$fpw_margin = '';
 				if ($instance['alignment'] == 'left') $fpw_margin = ' margin-right: 1em;';
 				if ($instance['alignment'] == 'right') $fpw_margin = ' margin-left: 1em;';
+				
+				$fpw_imgborder = (isset($instance['imgborder'])) ? ' border: '.$instance['imgborder'].';' : '';
 				
 				if (!has_post_thumbnail() || $instance['image']) : 
 				
@@ -248,7 +262,7 @@ class Featured_Post_Widget extends WP_Widget {
 						'option' => 'postfeature_cache',
 						'number' => $instance['image']
 					);
-		
+					
 					$fpw_image_info = A5_Image::thumbnail($args);
 					
 					$fpw_thumb = $fpw_image_info['thumb'];
@@ -259,9 +273,9 @@ class Featured_Post_Widget extends WP_Widget {
 					
 					if ($fpw_thumb) :
 					
-						if (!empty($fpw_width)) $fpw_img_tag = '<img title="'.$fpw_image_title.'" src="'.$fpw_thumb.'" alt="'.$fpw_image_alt.'" width="'.$fpw_width.'" height="'.$fpw_height.'" style="float: '.$fpw_float.';'.$fpw_margin.'" />';
+						if (!empty($fpw_width)) $fpw_img_tag = '<img title="'.$fpw_image_title.'" src="'.$fpw_thumb.'" alt="'.$fpw_image_alt.'" width="'.$fpw_width.'" height="'.$fpw_height.'" style="float: '.$fpw_float.';'.$fpw_margin.$fpw_imgborder.'" />';
 							
-						else $fpw_img_tag = '<img title="'.$fpw_image_title.'" src="'.$fpw_thumb.'" alt="'.$fpw_image_alt.'" style="maxwidth: '.$instance['width'].'; float: '.$fpw_float.';'.$fpw_margin.'" />';
+						else $fpw_img_tag = '<img title="'.$fpw_image_title.'" src="'.$fpw_thumb.'" alt="'.$fpw_image_alt.'" style="maxwidth: '.$instance['width'].'; float: '.$fpw_float.';'.$fpw_margin.$fpw_imgborder.'" />';
 						
 					endif;
 					
@@ -295,7 +309,7 @@ class Featured_Post_Widget extends WP_Widget {
 						
 					$img_size = A5_Image::count_size($args);
 					
-					$atts = array('title' => $fpw_image_title, 'alt' => $fpw_image_alt, 'style' => 'float: '.$fpw_float.';'.$fpw_margin);
+					$atts = array('title' => $fpw_image_title, 'alt' => $fpw_image_alt, 'style' => 'float: '.$fpw_float.';'.$fpw_margin.$fpw_imgborder);
 					
 					$size = array($img_size['width'], $img_size['height']);
 				
@@ -315,6 +329,8 @@ class Featured_Post_Widget extends WP_Widget {
 				$filter = ($instance['filter']) ? false : true;
 					
 				$shortcode = ($instance['noshorts']) ? false : 1;
+				
+				$class = (isset($instance['rmclass'])) ? $instance['rmclass'] : false;
 			
 				$args = array(
 					'usertext' => $instance['excerpt'],
@@ -326,6 +342,7 @@ class Featured_Post_Widget extends WP_Widget {
 					'title' => $fpw_title_tag,
 					'readmore' => $instance['readmore'],
 					'rmtext' => $rmtext,
+					'class' => $class,
 					'filter' => $filter
 				);
 		

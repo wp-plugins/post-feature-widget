@@ -7,10 +7,10 @@ Version: 3.4.1
 Author: Waldemar Stoffel
 Author URI: http://www.waldemarstoffel.com
 License: GPL3
-Text Domain: post-feature-widget
+Text Domain: postfeature
 */
 
-/*  Copyright 2010 - 2012  Waldemar Stoffel  (email : stoffel@atelier-fuenf.de)
+/*  Copyright 2010 - 2014  Waldemar Stoffel  (email : stoffel@atelier-fuenf.de)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -40,7 +40,13 @@ if (!class_exists('A5_Image')) require_once PFW_PATH.'class-lib/A5_ImageClass.ph
 if (!class_exists('A5_Excerpt')) require_once PFW_PATH.'class-lib/A5_ExcerptClass.php';
 if (!class_exists('A5_FormField')) require_once PFW_PATH.'class-lib/A5_FormFieldClass.php';
 if (!class_exists('Featured_Post_Widget')) require_once PFW_PATH.'class-lib/FP_WidgetClass.php';
-if (!function_exists('a5_textarea')) require_once PFW_PATH.'includes/A5_field-functions.php';
+if (!class_exists('A5_DynamicCSS')) :
+
+	require_once PFW_PATH.'class-lib/A5_DynamicCSSClass.php';
+	
+	$dynamic_css = new A5_DynamicCSS;
+	
+endif;
 
 class PostFeaturePlugin {
 	
@@ -52,17 +58,25 @@ class PostFeaturePlugin {
 		
 		load_plugin_textdomain(self::language_file, false , basename(dirname(__FILE__)).'/languages');
 		
-		add_action('admin_enqueue_scripts', array($this, 'js_sheet'));
-		
+		add_action('admin_enqueue_scripts', array($this, 'register_scripts'));
 		add_filter('plugin_row_meta', array($this, 'register_links'),10,2);
+		register_activation_hook(__FILE__, array($this, 'install'));
+		register_deactivation_hook(__FILE__, array($this, 'uninstall'));
 		
-		register_activation_hook(__FILE__, array($this, 'install_cache'));
-														
-		register_deactivation_hook(__FILE__, array($this, 'remove_cache'));
+		// attach CSS and write your name in the comments
+		
+		$eol = "\r\n";
+		$tab = "\t";
+		
+		A5_DynamicCSS::$styles .= $eol.'/* CSS portion of the Featured Post Widget */'.$eol.$eol;
+		
+		A5_DynamicCSS::$styles.='div[id^="featured_post_widget"].widget_featured_post_widget img {'.$eol.$tab.'height: auto;'.$eol.$tab.'max-width: 100%;'.$eol.'}'.$eol;
+		
+		A5_DynamicCSS::$styles.='div[id^="featured_post_widget"].widget_featured_post_widget {'.$eol.$tab.'-moz-hyphens: auto;'.$eol.$tab.'-o-hyphens: auto;'.$eol.$tab.'-webkit-hyphens: auto;'.$eol.$tab.'-ms-hyphens: auto;'.$eol.$tab.'hyphens: auto; '.$eol.'}'.$eol;
 		
 	}
 	
-	function install_cache() {
+	function install() {
 		
 		$default = array(
 			'tags' => array(),
@@ -73,7 +87,7 @@ class PostFeaturePlugin {
 	
 	}
 	
-	function remove_cache() {
+	function uninstall() {
 	
 		delete_option('postfeature_cache');
 	
@@ -81,7 +95,7 @@ class PostFeaturePlugin {
 	
 	/* attach JavaScript file for textarea reszing */
 	
-	function js_sheet($hook) {
+	function register_scripts($hook) {
 		
 		if ($hook != 'widgets.php') return;
 		

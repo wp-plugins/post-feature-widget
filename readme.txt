@@ -3,8 +3,8 @@ Contributors: tepelstreel
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D8AVGNDYYUNA2
 Tags: sidebar, widget, post, newspaper, feature, featured, image
 Requires at least: 2.9
-Tested up to: 3.6
-Stable tag: 3.4.1
+Tested up to: 3.9
+Stable tag: 3.5
 
 With the Featured Post Widget you can put a certain post in the focus and style it differently.
 
@@ -12,7 +12,7 @@ With the Featured Post Widget you can put a certain post in the focus and style 
 
 The Featured Post Widget is a fully customizable widget, that displays a single post. You can decide, whether or not the post thumbnail is displayed, whether the post title is above or beneath the thumbnail and a couple of more things. And of course, you can style the widget individually.
 
-The plugin was tested up to WP 3.6 and should work with versions down to 2.9 but was never tested.
+The plugin was tested up to WP 3.9 and should work with versions down to 2.9 but was never tested.
 
 == Installation ==
 
@@ -22,6 +22,10 @@ The plugin was tested up to WP 3.6 and should work with versions down to 2.9 but
 4. Ready
 
 == Frequently Asked Questions ==
+
+= How do I get the image more responsive ? =
+
+If the widget container is smaller than the image size, the image will automatically be adjusted to the widget size. In other words, just choose some width for the image that is larger than your widget area and it will always have the right size.
 
 = I styled the widget container myself and i looks bad. What do I do? =
 
@@ -61,6 +65,10 @@ to the widget style to get a nice shadow down right of the container. This is no
 2. The widget's settings section
 
 == Changelog ==
+
+= 3.5 =
+
+* code streamlined and options added
 
 = 3.4.1 =
 
@@ -191,3 +199,7 @@ some new features added; more stable and better performance
 = 3.4.1 =
 
 small bugfix
+
+= 3.5 =
+
+streamlined code and more options
