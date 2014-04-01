@@ -12,6 +12,8 @@
 class Featured_Post_Widget extends WP_Widget {
 	
 	const language_file = 'postfeature';
+	
+	private static $options;
  
 	function __construct() {
 		
@@ -19,6 +21,8 @@ class Featured_Post_Widget extends WP_Widget {
 		$control_opts = array( 'width' => 400 );
 		
 		parent::WP_Widget(false, $name = 'Featured Post Widget', $widget_opts, $control_opts);
+		
+		self::$options = get_option('pf_options');
 	
 	}
 	 
@@ -35,7 +39,7 @@ class Featured_Post_Widget extends WP_Widget {
 			'class' => false,
 			'headclass' => NULL,
 			'dateclass' => NULL,
-			'width' => NULL,
+			'width' => get_option('thumbnail_size_w'),
 			'imgborder' => NULL,
 			'headline' => NULL,
 			'h' => 3,
@@ -127,7 +131,7 @@ class Featured_Post_Widget extends WP_Widget {
 		a5_checkbox($base_id.'readmore', $base_name.'[readmore]', $readmore, __('Check to have an additional &#39;read more&#39; link at the end of the excerpt.', self::language_file), array('space' => true));	
 		a5_text_field($base_id.'rmtext', $base_name.'[rmtext]', $rmtext, sprintf(__('Write here some text for the &#39;read more&#39; link. By default, it is %s:', self::language_file), '[&#8230;]'), array('space' => true, 'class' => 'widefat'));
 		a5_text_field($base_id.'rmclass', $base_name.'[rmclass]', $rmclass, __('If you want to style the &#39;read more&#39; link, you can enter a class here.', self::language_file), array('space' => true, 'class' => 'widefat'));	
-		a5_textarea($base_id.'style', $base_name.'[style]', $style, sprintf(__('Here you can finally style the widget. Simply type something like%sto get just a gray outline and a padding of 10 px. If you leave that section empty, your theme will style the widget.', self::language_file), '<br /><strong>border: 2px solid;<br />border-color: #cccccc;<br />padding: 10px;</strong><br />'), array('space' => true, 'class' => 'widefat', 'style' => 'height: 60px;'));
+		if(empty(self::$options['css'])) a5_textarea($base_id.'style', $base_name.'[style]', $style, sprintf(__('Here you can finally style the widget. Simply type something like%sto get just a gray outline and a padding of 10 px. If you leave that section empty, your theme will style the widget.', self::language_file), '<br /><strong>border: 2px solid;<br />border-color: #cccccc;<br />padding: 10px;</strong><br />'), array('space' => true, 'class' => 'widefat', 'style' => 'height: 60px;'));
 		a5_resize_textarea(array($base_id.'excerpt', $base_id.'style'), true);
 		
 	} // form
@@ -173,21 +177,15 @@ class Featured_Post_Widget extends WP_Widget {
 		
 		if (empty($instance['style'])) :
 			
-			$fpw_before_widget=$before_widget;
-			$fpw_after_widget=$after_widget;
+			$style=str_replace(array("\r\n", "\n", "\r"), '', $instance['style']);
+			
+			$before_widget = str_replace('>', 'style="'.$style.'">', $before_widget);
 		
-		else :
-			
-			$style=str_replace(array("\r\n", "\n", "\r"), ' ', $instance['style']);
-			
-			$fpw_before_widget='<div id="'.$widget_id.'" style="'.$style.'" class="widget_featured_post_widget">';
-			$fpw_after_widget='</div>';
-			
 		endif;
 		
 		// widget starts
 		
-		echo $fpw_before_widget;
+		echo $before_widget;
 		
 		if ( $title ) echo $before_title . $title . $after_title;
 		
@@ -211,7 +209,7 @@ class Featured_Post_Widget extends WP_Widget {
 				
 			$fpw_posts->the_post();
 	 
-			$fpw_tags = A5_Image::tags($post, 'postfeature_cache', self::language_file);
+			$fpw_tags = A5_Image::tags(self::language_file);
 			
 			$fpw_image_alt = $fpw_tags['image_alt'];
 			$fpw_image_title = $fpw_tags['image_title'];
@@ -243,8 +241,6 @@ class Featured_Post_Widget extends WP_Widget {
 			
 			if (!$instance['thumb']) :
 			
-				$default = A5_Image::get_default($instance['width']);
-				
 				$fpw_float = ($instance['alignment'] != 'notext') ? $instance['alignment'] : 'none';
 				
 				$fpw_margin = '';
@@ -253,77 +249,33 @@ class Featured_Post_Widget extends WP_Widget {
 				
 				$fpw_imgborder = (isset($instance['imgborder'])) ? ' border: '.$instance['imgborder'].';' : '';
 				
-				if (!has_post_thumbnail() || $instance['image']) : 
+				$id = get_the_ID();
+					
+				$args = array (
+					'id' => $id,
+					'option' => 'pf_options',
+					'width' => $instance['width']
+				);
+					
+				$fpw_image_info = A5_Image::thumbnail($args);
 				
-					$args = array (
-						'content' => $post->post_content,
-						'width' => $default[0],
-						'height' => $default[1],
-						'option' => 'postfeature_cache',
-						'number' => $instance['image']
-					);
+				$fpw_thumb = $fpw_image_info[0];
+				
+				$fpw_width = $fpw_image_info[1];
+		
+				$fpw_height = $fpw_image_info[1];
+				
+				$fpw_height = ($fpw_image_info[2]) ? 'height="'.$fpw_image_info[2].' "' : '';
 					
-					$fpw_image_info = A5_Image::thumbnail($args);
-					
-					$fpw_thumb = $fpw_image_info['thumb'];
-					
-					$fpw_width = $fpw_image_info['thumb_width'];
+				if ($fpw_thumb) $fpw_img_tag = '<img title="'.$fpw_image_title.'" src="'.$fpw_thumb.'" alt="'.$fpw_image_alt.'" width="'.$fpw_width.'" height="'.$fpw_height.'" style="float: '.$fpw_float.';'.$fpw_margin.$fpw_imgborder.'" />';
 			
-					$fpw_height = $fpw_image_info['thumb_height'];
-					
-					if ($fpw_thumb) :
-					
-						if (!empty($fpw_width)) $fpw_img_tag = '<img title="'.$fpw_image_title.'" src="'.$fpw_thumb.'" alt="'.$fpw_image_alt.'" width="'.$fpw_width.'" height="'.$fpw_height.'" style="float: '.$fpw_float.';'.$fpw_margin.$fpw_imgborder.'" />';
-							
-						else $fpw_img_tag = '<img title="'.$fpw_image_title.'" src="'.$fpw_thumb.'" alt="'.$fpw_image_alt.'" style="maxwidth: '.$instance['width'].'; float: '.$fpw_float.';'.$fpw_margin.$fpw_imgborder.'" />';
-						
-					endif;
-					
-				else :
-				
-					$img_info = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'large');
-					
-					if (!$img_info):
-					
-						$src = get_the_post_thumbnail();
-					
-						$img = preg_match_all('/<\s*img[^>]+src\s*=\s*["\']?([^\s"\']+)["\']?[\s\/>]+/', $src, $matches);
-						
-						$img_info[0] = $matches[1][0];
-						
-						$img_size = A5_Image::get_size($img_info[0]);
-						
-						$img_info[1] = $img_size['width'];
-						
-						$img_info[2] = $img_size['height'];
-						
-					endif;
-					
-					$args = array (
-						'ratio' => $img_info[1]/$img_info[2],
-						'thumb_width' => $img_info[1],
-						'thumb_height' => $img_info[2],
-						'width' => $default[0],
-						'height' => $default[1]
-					);
-						
-					$img_size = A5_Image::count_size($args);
-					
-					$atts = array('title' => $fpw_image_title, 'alt' => $fpw_image_alt, 'style' => 'float: '.$fpw_float.';'.$fpw_margin.$fpw_imgborder);
-					
-					$size = array($img_size['width'], $img_size['height']);
-				
-					$fpw_img_tag = get_the_post_thumbnail($post->ID, $size, $atts);
-				
-				endif;
-				
-					$fpw_image = (isset($fpw_img_tag)) ? '<a href="'.get_permalink().'">'.$fpw_img_tag.'</a>'.$eol : '';
+				$fpw_image = (isset($fpw_img_tag)) ? '<a href="'.get_permalink().'">'.$fpw_img_tag.'</a>'.$eol : '';
 				
 			endif;
 			
 			// excerpt, if wanted
 			
-			if (!$instance['alignment'] != 'notext') :
+			if ($instance['alignment'] != 'notext') :
 			
 				$rmtext = ($instance['rmtext']) ? $instance['rmtext'] : '[&#8230;]';
 				$filter = ($instance['filter']) ? false : true;
@@ -378,7 +330,11 @@ class Featured_Post_Widget extends WP_Widget {
 			
 		endwhile;
 		
-		echo $fpw_after_widget;
+		// Restore original Query & Post Data
+		wp_reset_query();
+		wp_reset_postdata();
+		
+		echo $after_widget;
 	
 	} // widget
  
