@@ -143,24 +143,24 @@ class Featured_Post_Widget extends WP_Widget {
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['article'] = strip_tags($new_instance['article']);
 		$instance['backup'] = strip_tags($new_instance['backup']);	 
-		$instance['class'] = strip_tags($new_instance['class']);
+		$instance['class'] = @$new_instance['class'];
 		$instance['headclass'] = strip_tags($new_instance['headclass']);
 		$instance['dateclass'] = strip_tags($new_instance['dateclass']);
-		$instance['thumb'] = strip_tags($new_instance['thumb']);	
+		$instance['thumb'] = @$new_instance['thumb'];	
 		$instance['image'] = strip_tags($new_instance['image']);	 
 		$instance['width'] = strip_tags($new_instance['width']);	 
 		$instance['headline'] = strip_tags($new_instance['headline']);
 		$instance['date'] = strip_tags($new_instance['date']);
 		$instance['excerpt'] = strip_tags($new_instance['excerpt']);
-		$instance['linespace'] = strip_tags($new_instance['linespace']);
+		$instance['linespace'] = @$new_instance['linespace'];
 		$instance['alignment'] = strip_tags($new_instance['alignment']);
-		$instance['noshorts'] = strip_tags($new_instance['noshorts']);
-		$instance['readmore'] = strip_tags($new_instance['readmore']);
+		$instance['noshorts'] = @$new_instance['noshorts'];
+		$instance['readmore'] = @$new_instance['readmore'];
 		$instance['rmtext'] = strip_tags($new_instance['rmtext']);
 		$instance['rmclass'] = strip_tags($new_instance['rmclass']);
 		$instance['h'] = strip_tags($new_instance['h']);
 		$instance['style'] = strip_tags($new_instance['style']);
-		$instance['filter'] = strip_tags($new_instance['filter']);
+		$instance['filter'] = @$new_instance['filter'];
 		$instance['id'] = strip_tags($new_instance['id']);
 		$instance['bid'] = strip_tags($new_instance['bid']);
 		$instance['imgborder'] = strip_tags($new_instance['imgborder']);
@@ -175,7 +175,7 @@ class Featured_Post_Widget extends WP_Widget {
 		
 		$title = apply_filters('widget_title', $instance['title']);
 		
-		if (empty($instance['style'])) :
+		if (!empty($instance['style'])) :
 			
 			$style=str_replace(array("\r\n", "\n", "\r"), '', $instance['style']);
 			
@@ -247,7 +247,7 @@ class Featured_Post_Widget extends WP_Widget {
 				if ($instance['alignment'] == 'left') $fpw_margin = ' margin-right: 1em;';
 				if ($instance['alignment'] == 'right') $fpw_margin = ' margin-left: 1em;';
 				
-				$fpw_imgborder = (isset($instance['imgborder'])) ? ' border: '.$instance['imgborder'].';' : '';
+				$fpw_imgborder = (!empty($instance['imgborder'])) ? ' border: '.$instance['imgborder'].';' : '';
 				
 				$id = get_the_ID();
 					
@@ -265,9 +265,9 @@ class Featured_Post_Widget extends WP_Widget {
 		
 				$fpw_height = $fpw_image_info[1];
 				
-				$fpw_height = ($fpw_image_info[2]) ? 'height="'.$fpw_image_info[2].' "' : '';
+				$fpw_height = ($fpw_image_info[2]) ? ' height="'.$fpw_image_info[2].'"' : '';
 					
-				if ($fpw_thumb) $fpw_img_tag = '<img title="'.$fpw_image_title.'" src="'.$fpw_thumb.'" alt="'.$fpw_image_alt.'" width="'.$fpw_width.'" height="'.$fpw_height.'" style="float: '.$fpw_float.';'.$fpw_margin.$fpw_imgborder.'" />';
+				if ($fpw_thumb) $fpw_img_tag = '<img title="'.$fpw_image_title.'" src="'.$fpw_thumb.'" alt="'.$fpw_image_alt.'" width="'.$fpw_width.'"'.$fpw_height.' style="float: '.$fpw_float.';'.$fpw_margin.$fpw_imgborder.'" />';
 			
 				$fpw_image = (isset($fpw_img_tag)) ? '<a href="'.get_permalink().'">'.$fpw_img_tag.'</a>'.$eol : '';
 				
@@ -280,9 +280,9 @@ class Featured_Post_Widget extends WP_Widget {
 				$rmtext = ($instance['rmtext']) ? $instance['rmtext'] : '[&#8230;]';
 				$filter = ($instance['filter']) ? false : true;
 					
-				$shortcode = ($instance['noshorts']) ? false : 1;
+				$shortcode = ($instance['noshorts']) ? false : true;
 				
-				$class = (isset($instance['rmclass'])) ? $instance['rmclass'] : false;
+				$class = (!empty($instance['rmclass'])) ? $instance['rmclass'] : false;
 			
 				$args = array(
 					'usertext' => $instance['excerpt'],

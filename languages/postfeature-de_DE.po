@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Post-Feature-Widget\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/post-feature-widget\n"
-"POT-Creation-Date: 2014-04-01 12:53+0200\n"
-"PO-Revision-Date: 2014-04-01 12:54+0200\n"
+"POT-Creation-Date: 2014-04-11 10:35+0200\n"
+"PO-Revision-Date: 2014-04-11 10:35+0200\n"
 "Last-Translator: Waldemar Stoffel <stoffel@atelier-fuenf.de>\n"
 "Language-Team: Waldemar Stoffel <info@waldemarstoffel.com>\n"
 "Language: de_DE\n"
@@ -86,9 +86,30 @@ msgstr ""
 "Ablegen des CSS im Quellcode hilft dann. Hier klicken, um CSS inline zu "
 "schreiben."
 
-#: class-lib/FP_AdminClass.php:98
+#: class-lib/FP_AdminClass.php:94
+msgid "entries"
+msgstr "Einträge"
+
+#: class-lib/FP_AdminClass.php:94
+msgid "entry"
+msgstr "Eintrag"
+
+#: class-lib/FP_AdminClass.php:96
+#, php-format
+msgid "Empty cache (%d %s):"
+msgstr "Cache leeren (%d %s):"
+
+#: class-lib/FP_AdminClass.php:96
+msgid "You can empty the plugin&#39;s cache here, if necessary."
+msgstr "Falls nötig, kannst du hier den Cache des Plugins leeren."
+
+#: class-lib/FP_AdminClass.php:104
 msgid "Just put some css code here."
 msgstr "Einfach css Code hier eingeben."
+
+#: class-lib/FP_AdminClass.php:143
+msgid "Cache emptied."
+msgstr "Cache geleert."
 
 #: class-lib/FP_WidgetClass.php:20
 msgid ""
