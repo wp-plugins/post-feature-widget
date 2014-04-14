@@ -195,6 +195,7 @@ class Featured_Post_Widget extends WP_Widget {
 		$backup = ($instance['bid']) ? $instance['bid'] : $instance['backup'];
 			
 		$fpw_post_id = get_post($article);
+		echo '<pre>';var_dump($fpw_post_id);echo '</pre>';
 		$fpw_post_name = $fpw_post_id->post_name;
 		
 		$fpw_post = ($article == $wp_query->get( 'p' ) || $fpw_post_name == $wp_query->get ( 'name' )) ? 'p='.$backup : 'p='.$article;
