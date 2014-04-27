@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Post-Feature-Widget\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/post-feature-widget\n"
-"POT-Creation-Date: 2014-04-11 10:35+0200\n"
-"PO-Revision-Date: 2014-04-11 10:35+0200\n"
+"POT-Creation-Date: 2014-04-27 14:03+0200\n"
+"PO-Revision-Date: 2014-04-27 14:03+0200\n"
 "Last-Translator: Waldemar Stoffel <stoffel@atelier-fuenf.de>\n"
 "Language-Team: Waldemar Stoffel <info@waldemarstoffel.com>\n"
 "Language: de_DE\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Permalink to"
 msgstr "Link zu:"
 
-#: class-lib/A5_OptionPageClass.php:31 class-lib/FP_AdminClass.php:34
+#: class-lib/A5_OptionPageClass.php:31 class-lib/FP_AdminClass.php:48
 #: postfeature.php:114
 msgid "Settings"
 msgstr "Einstellungen"
@@ -35,29 +35,29 @@ msgstr "Einstellungen"
 msgid "Click to toggle"
 msgstr "Zum Umschalten klicken"
 
-#: class-lib/FP_AdminClass.php:47
+#: class-lib/FP_AdminClass.php:61
 msgid ""
 "http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/featured-post-"
 "widget"
 msgstr "http://blog.atelier-fuenf.de/wordpress-plugins/featured-post-widget"
 
-#: class-lib/FP_AdminClass.php:47
+#: class-lib/FP_AdminClass.php:61
 msgid "Plugin Support"
 msgstr "Plugin Support"
 
-#: class-lib/FP_AdminClass.php:59
+#: class-lib/FP_AdminClass.php:73
 msgid "Debug Info"
 msgstr "Info zur Fehlersuche"
 
-#: class-lib/FP_AdminClass.php:86
+#: class-lib/FP_AdminClass.php:100
 msgid "Styling of the widgets"
 msgstr "Styling der Widgets"
 
-#: class-lib/FP_AdminClass.php:88
+#: class-lib/FP_AdminClass.php:102
 msgid "Widget container:"
 msgstr "Widget Container:"
 
-#: class-lib/FP_AdminClass.php:88
+#: class-lib/FP_AdminClass.php:102
 msgid ""
 "You can enter your own style for the widgets here. This will overwrite the "
 "styles of your theme."
@@ -65,7 +65,7 @@ msgstr ""
 "Du kannst deinen eigenen Stil für die Widgets hier eingeben. Das wird die "
 "Stile deines Themes überschreiben."
 
-#: class-lib/FP_AdminClass.php:88
+#: class-lib/FP_AdminClass.php:102
 msgid ""
 "If you leave this empty, you can still style every instance of the widget "
 "individually."
@@ -73,11 +73,19 @@ msgstr ""
 "Wenn du das Feld leer lässt, kannst du immer noch jede Instanz des Widgets "
 "individuell stylen."
 
-#: class-lib/FP_AdminClass.php:90
+#: class-lib/FP_AdminClass.php:104
+msgid "Compress Style Sheet:"
+msgstr "Stylesheet Komprimieren:"
+
+#: class-lib/FP_AdminClass.php:104
+msgid "Click here to compress the style sheet."
+msgstr "Anklicken, um das Stylesheet zu komprimieren."
+
+#: class-lib/FP_AdminClass.php:106
 msgid "Debug:"
 msgstr "Debug:"
 
-#: class-lib/FP_AdminClass.php:90
+#: class-lib/FP_AdminClass.php:106
 msgid ""
 "If you can&#39;t reach the dynamical style sheet, you&#39;ll have to diplay "
 "the styles inline. By clicking here you can do so."
@@ -86,28 +94,28 @@ msgstr ""
 "Ablegen des CSS im Quellcode hilft dann. Hier klicken, um CSS inline zu "
 "schreiben."
 
-#: class-lib/FP_AdminClass.php:94
+#: class-lib/FP_AdminClass.php:110
 msgid "entries"
 msgstr "Einträge"
 
-#: class-lib/FP_AdminClass.php:94
+#: class-lib/FP_AdminClass.php:110
 msgid "entry"
 msgstr "Eintrag"
 
-#: class-lib/FP_AdminClass.php:96
+#: class-lib/FP_AdminClass.php:112
 #, php-format
 msgid "Empty cache (%d %s):"
 msgstr "Cache leeren (%d %s):"
 
-#: class-lib/FP_AdminClass.php:96
+#: class-lib/FP_AdminClass.php:112
 msgid "You can empty the plugin&#39;s cache here, if necessary."
 msgstr "Falls nötig, kannst du hier den Cache des Plugins leeren."
 
-#: class-lib/FP_AdminClass.php:104
+#: class-lib/FP_AdminClass.php:120
 msgid "Just put some css code here."
 msgstr "Einfach css Code hier eingeben."
 
-#: class-lib/FP_AdminClass.php:143
+#: class-lib/FP_AdminClass.php:166
 msgid "Cache emptied."
 msgstr "Cache geleert."
 

@@ -255,7 +255,8 @@ class Featured_Post_Widget extends WP_Widget {
 				$args = array (
 					'id' => $id,
 					'option' => 'pf_options',
-					'width' => $instance['width']
+					'width' => $instance['width'],
+					'number' => $instance['image']
 				);
 					
 				$fpw_image_info = A5_Image::thumbnail($args);
