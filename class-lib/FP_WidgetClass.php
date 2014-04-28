@@ -251,12 +251,14 @@ class Featured_Post_Widget extends WP_Widget {
 				$fpw_imgborder = (!empty($instance['imgborder'])) ? ' border: '.$instance['imgborder'].';' : '';
 				
 				$id = get_the_ID();
+				
+				$number = ($instance['image']) ? $instance['image'] : NULL;
 					
 				$args = array (
 					'id' => $id,
 					'option' => 'pf_options',
 					'width' => $instance['width'],
-					'number' => $instance['image']
+					'number' => $number
 				);
 					
 				$fpw_image_info = A5_Image::thumbnail($args);
