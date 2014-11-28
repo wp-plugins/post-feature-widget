@@ -3,7 +3,7 @@
 Plugin Name: Featured Post Widget
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/featured-post-widget
 Description: Featured Post Widget is yet another plugin to make your blog a bit more newspaper-like. Just by choosing a post from a dropdown, you can put it in the 'featured' area and display thumbnail, headline, excerpt or all three of them (if available) in the fully customizable widget.
-Version: 3.9.3
+Version: 4.0
 Author: Waldemar Stoffel
 Author URI: http://www.waldemarstoffel.com
 License: GPL3
@@ -57,13 +57,13 @@ class PostFeaturePlugin {
 		
 		load_plugin_textdomain(self::language_file, false , basename(dirname(__FILE__)).'/languages');
 		
-		add_action('admin_enqueue_scripts', array(&$this, 'enqueue_scripts'));
+		add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
 		
-		add_filter('plugin_row_meta', array(&$this, 'register_links'), 10, 2);	
-		add_filter( 'plugin_action_links', array(&$this, 'plugin_action_links'), 10, 2 );
+		add_filter('plugin_row_meta', array($this, 'register_links'), 10, 2);	
+		add_filter( 'plugin_action_links', array($this, 'plugin_action_links'), 10, 2 );
 				
-		register_activation_hook(  __FILE__, array(&$this, '_install') );
-		register_deactivation_hook(  __FILE__, array(&$this, '_uninstall') );
+		register_activation_hook(  __FILE__, array($this, '_install') );
+		register_deactivation_hook(  __FILE__, array($this, '_uninstall') );
 		
 		self::$options = get_option('postfeature_cache');
 		
@@ -88,7 +88,9 @@ class PostFeaturePlugin {
 		
 		if ($hook != 'settings_page_featured-post-settings' && $hook != 'widgets.php' && $hook != 'post.php') return;
 		
-		wp_register_script('ta-expander-script', plugins_url('ta-expander.js', __FILE__), array('jquery'), '2.0', true);
+		$min = (WP_DEBUG == false) ? '.min.' : '.';
+		
+		wp_register_script('ta-expander-script', plugins_url('ta-expander'.$min.'js', __FILE__), array('jquery'), '3.0', true);
 		wp_enqueue_script('ta-expander-script');
 	
 	
