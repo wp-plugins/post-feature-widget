@@ -22,9 +22,9 @@ class FP_DynamicCSS extends A5_DynamicFiles {
 		
 		if (!isset(self::$options['compress'])) self::$options['compress'] = false;
 		
-		parent::A5_DynamicFiles('wp', 'css', 'all', false, self::$options['inline']);
+		parent::__construct('wp', 'css', 'all', false, self::$options['inline']);
 		
-		$eol = (self::$options['compress']) ? '' : "\r\n";
+		$eol = (self::$options['compress']) ? '' : "\n";
 		$tab = (self::$options['compress']) ? '' : "\t";
 		
 		$css_selector = 'widget_featured_post_widget[id^="featured_post_widget"]';
