@@ -5,7 +5,7 @@
  * Class A5 Images
  *
  * @ A5 Plugin Framework
- * Version: 1.0 beta 20141124
+ * Version: 1.0 beta 20150821
  *
  * Gets the alt and title tag for attachments
  *
@@ -15,7 +15,7 @@
 
 class A5_Image {
 	
-	public static function tags($language_file) {
+	public static function tags() {
 		
 		$id = get_the_ID();
 		
@@ -31,7 +31,8 @@ class A5_Image {
 				'post_type' => 'attachment',
 				'posts_per_page' => 1,
 				'post_status' => null,
-				'post_parent' => $id
+				'post_parent' => $id,
+				'order' => 'ASC'
 			);
 			
 			$attachments = get_posts( $args );
@@ -44,7 +45,7 @@ class A5_Image {
 		
 		$title = get_the_title($id);
 		
-		$title_tag = __('Permalink to', $language_file).' '.esc_attr($title);
+		$title_tag = __('Permalink to', 'postfeature').' '.esc_attr($title);
 				  
 		$image_alt = trim(strip_tags( get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true) ));
 		
@@ -120,13 +121,16 @@ class A5_Image {
 		
 			if (has_post_thumbnail()) $attachment_id = get_post_thumbnail_id();
 			
+			$custom_fields = get_post_custom($id);
+			
 			if (!isset($attachment_id)) :
 			
 				$args = array(
 				'post_type' => 'attachment',
 				'posts_per_page' => 1,
 				'post_status' => null,
-				'post_parent' => $id
+				'post_parent' => $id,
+				'order' => 'ASC'
 				);
 				
 				$attachments = get_posts( $args );
@@ -304,7 +308,7 @@ class A5_Image {
 			
 				$tmp_image = download_url($img);
 				
-				if (!is_wp_error($tmp_image)) $imgsize = @getimagesize($img);
+				if (!is_wp_error($tmp_image)) $imgsize = @getimagesize($tmp_img);
 				
 				@unlink($tmp_image);
 				

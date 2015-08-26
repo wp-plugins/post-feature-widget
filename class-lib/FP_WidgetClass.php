@@ -9,18 +9,16 @@
  * building the actual widget
  *
  */
-class Featured_Post_Widget extends WP_Widget {
-	
-	const language_file = 'postfeature';
+class Featured_Post_Widget extends A5_Widget {
 	
 	private static $options;
  
 	function __construct() {
 		
-		$widget_opts = array( 'description' => __('You can feature a certain post in this widget and display it, where and however you want, in your widget areas. A backup post can be given to avoid dubble content.', self::language_file) );
+		$widget_opts = array( 'description' => __('You can feature a certain post in this widget and display it, where and however you want, in your widget areas. A backup post can be given to avoid dubble content.', 'postfeature') );
 		$control_opts = array( 'width' => 400 );
 		
-		parent::WP_Widget(false, $name = 'Featured Post Widget', $widget_opts, $control_opts);
+		parent::__construct(false, $name = 'Featured Post Widget', $widget_opts, $control_opts);
 		
 		self::$options = get_option('pf_options');
 	
@@ -96,42 +94,36 @@ class Featured_Post_Widget extends WP_Widget {
 		
 		endforeach;
 		
-		$options = array (array('top', __('Above thumbnail', self::language_file)) , array('bottom', __('Under thumbnail', self::language_file)), array('middel', __('Under date', self::language_file)), array('none', __('Don&#39;t show title', self::language_file)));
+		$options = array (array('top', __('Above thumbnail', 'postfeature')) , array('bottom', __('Under thumbnail', 'postfeature')), array('middel', __('Under date', 'postfeature')), array('none', __('Don&#39;t show title', 'postfeature')));
 		
-		$items = array (array('none', __('Under image', self::language_file)), array('right', __('Left of image', self::language_file)), array('left', __('Right of image', self::language_file)), array('notext', __('Don&#39;t show excerpt', self::language_file)));
-		
-		$date_options = array (array('top', __('Above post', self::language_file)), array('middel', __('Under thumbnail', self::language_file)), array('bottom', __('Under post', self::language_file)), array('none', __('Don&#39;t show date', self::language_file)));
-		
-		$headings = array(array('1', 'h1'), array('2', 'h2'), array('3', 'h3'), array('4', 'h4'), array('5', 'h5'), array('6', 'h6'));
+		$date_options = array (array('top', __('Above post', 'postfeature')), array('middel', __('Under thumbnail', 'postfeature')), array('bottom', __('Under post', 'postfeature')), array('none', __('Don&#39;t show date', 'postfeature')));
 		
 		$base_id = 'widget-'.$this->id_base.'-'.$this->number.'-';
 		$base_name = 'widget-'.$this->id_base.'['.$this->number.']';
 		
 		
-		a5_text_field($base_id.'title', $base_name.'[title]', $title, __('Title:', self::language_file), array('space' => true, 'class' => 'widefat'));
-		a5_select($base_id.'article', $base_name.'[article]', $posts, $article, __('Choose here the post, you want to appear in the widget.', self::language_file), __('Take a random post', self::language_file), array('space' => true, 'class' => 'widefat'));
-		a5_select($base_id.'backup', $base_name.'[backup]',$posts,  $backup, __('Choose here the backup post. It will appear, when a single post page shows the featured article.', self::language_file), __('Take a random post', self::language_file), array('space' => true, 'class' => 'widefat'));
-		a5_number_field($base_id.'id', $base_name.'[id]', $id, __('Post ID (if you don&#39;t want to use the dropdown menu):', self::language_file), array('space' => true, 'size' => 4, 'step' => 1));
-		a5_number_field($base_id.'bid', $base_name.'[bid]', $bid, __('ID for backup post (if you don&#39;t want to use the dropdown menu):', self::language_file), array('space' => true, 'size' => 4, 'step' => 1));
-		a5_checkbox($base_id.'class', $base_name.'[class]', $class, __('I want to style the headline and the date in this widget with my own class(es).', self::language_file), array('space' => true));
-		a5_text_field($base_id.'headclass', $base_name.'[headclass]', $headclass, __('Write here the name of your class for the headline:', self::language_file), array('space' => true, 'class' => 'widefat'));
-		a5_text_field($base_id.'dateclass', $base_name.'[dateclass]', $dateclass, __('Write here the name of your class for the date:', self::language_file), array('space' => true, 'class' => 'widefat'));
-		a5_text_field($base_id.'image', $base_name.'[image]', $image, sprintf(__('To use an image of the post instead of the post thumbnail, enter the number of that image. The word %s will bring the last image of the post.', self::language_file), '&#39;last&#39;'), array('space' => true, 'size' => 6));
-		a5_number_field($base_id.'width', $base_name.'[width]', $width, __('Width of the thumbnail (in px):', self::language_file), array('space' => true, 'size' => 4, 'step' => 1));
-		a5_text_field($base_id.'imgborder', $base_name.'[imgborder]', $imgborder, sprintf(__('If wanting a border around the image, write the style here. %s would make it a black border, 1px wide.', self::language_file), '<strong>1px solid #000000</strong>'), array('space' => true, 'class' => 'widefat'));
-		a5_checkbox($base_id.'thumb', $base_name.'[thumb]', $thumb, sprintf(__('Check to %snot%s display the thumbnail of the post.', self::language_file), '<strong>', '</strong>'), array('space' => true));
-		a5_select($base_id.'headline', $base_name.'[headline]', $options, $headline, __('Choose, whether or not to display the title and whether it comes above or under the thumbnail.', self::language_file), false, array('space' => true));
-		a5_select($base_id.'h', $base_name.'[h]', $headings, $h, __('Weight of the Post Title:', self::language_file), false, array('space' => true));
-		a5_select($base_id.'date', $base_name.'[date]', $date_options, $date, __('Choose, whether or not to display the publishing date and whether it comes above or under the post.', self::language_file), false, array('space' => true));
-		a5_textarea($base_id.'excerpt', $base_name.'[excerpt]', $excerpt, __('If the excerpt of the post is not defined, by default the first 3 sentences of the post are shown. You can enter your own excerpt here, if you want.', self::language_file), array('space' => true, 'class' => 'widefat', 'style' => 'height: 60px;'));
-		a5_select($base_id.'alignment', $base_name.'[alignment]', $items, $alignment, __('Choose, whether or not to display the excerpt and whether it comes under the thumbnail or next to it.', self::language_file), false, array('space' => true));
-		a5_checkbox($base_id.'linespace', $base_name.'[linespace]', $linespace, __('Check to have each sentence in a new line.', self::language_file), array('space' => true));
-		a5_checkbox($base_id.'noshorts', $base_name.'[noshorts]', $noshorts, __('Check to suppress shortcodes in the widget (in case the content is showing).', self::language_file), array('space' => true));
-		a5_checkbox($base_id.'filter', $base_name.'[filter]', $filter, __('Check to return the excerpt unfiltered (might avoid interferences with other plugins).', self::language_file), array('space' => true));
-		a5_checkbox($base_id.'readmore', $base_name.'[readmore]', $readmore, __('Check to have an additional &#39;read more&#39; link at the end of the excerpt.', self::language_file), array('space' => true));	
-		a5_text_field($base_id.'rmtext', $base_name.'[rmtext]', $rmtext, sprintf(__('Write here some text for the &#39;read more&#39; link. By default, it is %s:', self::language_file), '[&#8230;]'), array('space' => true, 'class' => 'widefat'));
-		a5_text_field($base_id.'rmclass', $base_name.'[rmclass]', $rmclass, __('If you want to style the &#39;read more&#39; link, you can enter a class here.', self::language_file), array('space' => true, 'class' => 'widefat'));	
-		if(empty(self::$options['css'])) a5_textarea($base_id.'style', $base_name.'[style]', $style, sprintf(__('Here you can finally style the widget. Simply type something like%sto get just a gray outline and a padding of 10 px. If you leave that section empty, your theme will style the widget.', self::language_file), '<br /><strong>border: 2px solid;<br />border-color: #cccccc;<br />padding: 10px;</strong><br />'), array('space' => true, 'class' => 'widefat', 'style' => 'height: 60px;'));
+		a5_text_field($base_id.'title', $base_name.'[title]', $title, __('Title:', 'postfeature'), array('space' => true, 'class' => 'widefat'));
+		a5_select($base_id.'article', $base_name.'[article]', $posts, $article, __('Choose here the post, you want to appear in the widget.', 'postfeature'), __('Take a random post', 'postfeature'), array('space' => true, 'class' => 'widefat'));
+		a5_select($base_id.'backup', $base_name.'[backup]',$posts,  $backup, __('Choose here the backup post. It will appear, when a single post page shows the featured article.', 'postfeature'), __('Take a random post', 'postfeature'), array('space' => true, 'class' => 'widefat'));
+		a5_number_field($base_id.'id', $base_name.'[id]', $id, __('Post ID (if you don&#39;t want to use the dropdown menu):', 'postfeature'), array('space' => true, 'size' => 4, 'step' => 1));
+		a5_number_field($base_id.'bid', $base_name.'[bid]', $bid, __('ID for backup post (if you don&#39;t want to use the dropdown menu):', 'postfeature'), array('space' => true, 'size' => 4, 'step' => 1));
+		a5_checkbox($base_id.'class', $base_name.'[class]', $class, __('I want to style the headline and the date in this widget with my own class(es).', 'postfeature'), array('space' => true));
+		a5_text_field($base_id.'headclass', $base_name.'[headclass]', $headclass, __('Write here the name of your class for the headline:', 'postfeature'), array('space' => true, 'class' => 'widefat'));
+		a5_text_field($base_id.'dateclass', $base_name.'[dateclass]', $dateclass, __('Write here the name of your class for the date:', 'postfeature'), array('space' => true, 'class' => 'widefat'));
+		a5_text_field($base_id.'image', $base_name.'[image]', $image, sprintf(__('To use an image of the post instead of the post thumbnail, enter the number of that image. The word %s will bring the last image of the post.', 'postfeature'), '&#39;last&#39;'), array('space' => true, 'size' => 6));
+		a5_number_field($base_id.'width', $base_name.'[width]', $width, __('Width of the thumbnail (in px):', 'postfeature'), array('space' => true, 'size' => 4, 'step' => 1));
+		a5_text_field($base_id.'imgborder', $base_name.'[imgborder]', $imgborder, sprintf(__('If wanting a border around the image, write the style here. %s would make it a black border, 1px wide.', 'postfeature'), '<strong>1px solid #000000</strong>'), array('space' => true, 'class' => 'widefat'));
+		a5_checkbox($base_id.'thumb', $base_name.'[thumb]', $thumb, sprintf(__('Check to %snot%s display the thumbnail of the post.', 'postfeature'), '<strong>', '</strong>'), array('space' => true));
+		a5_select($base_id.'headline', $base_name.'[headline]', $options, $headline, __('Choose, whether or not to display the title and whether it comes above or under the thumbnail.', 'postfeature'), false, array('space' => true));
+		parent::select_heading($instance);
+		a5_select($base_id.'date', $base_name.'[date]', $date_options, $date, __('Choose, whether or not to display the publishing date and whether it comes above or under the post.', 'postfeature'), false, array('space' => true));
+		a5_textarea($base_id.'excerpt', $base_name.'[excerpt]', $excerpt, __('If the excerpt of the post is not defined, by default the first 3 sentences of the post are shown. You can enter your own excerpt here, if you want.', 'postfeature'), array('space' => true, 'class' => 'widefat', 'style' => 'height: 60px;'));
+		parent::textalign($instance);
+		a5_checkbox($base_id.'linespace', $base_name.'[linespace]', $linespace, __('Check to have each sentence in a new line.', 'postfeature'), array('space' => true));
+		a5_checkbox($base_id.'noshorts', $base_name.'[noshorts]', $noshorts, __('Check to suppress shortcodes in the widget (in case the content is showing).', 'postfeature'), array('space' => true));
+		a5_checkbox($base_id.'filter', $base_name.'[filter]', $filter, __('Check to return the excerpt unfiltered (might avoid interferences with other plugins).', 'postfeature'), array('space' => true));
+		parent::read_more($instance);	
+		if(empty(self::$options['css'])) a5_textarea($base_id.'style', $base_name.'[style]', $style, sprintf(__('Here you can finally style the widget. Simply type something like%sto get just a gray outline and a padding of 10 px. If you leave that section empty, your theme will style the widget.', 'postfeature'), '<br /><strong>border: 2px solid;<br />border-color: #cccccc;<br />padding: 10px;</strong><br />'), array('space' => true, 'class' => 'widefat', 'style' => 'height: 60px;'));
 		a5_resize_textarea(array($base_id.'excerpt', $base_id.'style'), true);
 		
 	} // form
@@ -194,23 +186,35 @@ class Featured_Post_Widget extends WP_Widget {
 		$article = ($instance['id']) ? $instance['id'] : $instance['article'];
 		$backup = ($instance['bid']) ? $instance['bid'] : $instance['backup'];
 			
-		$fpw_post_id = get_post($article);
+		$fpw_queried_id = $wp_query->get_queried_object_id(); 
 		
-		$fpw_post_name = $fpw_post_id->post_name;
+		$fpw_post = ($fpw_queried_id == $article) ? (int) $backup : (int) $article;
 		
-		$fpw_post = ($article == $wp_query->get( 'p' ) || $fpw_post_name == $wp_query->get ( 'name' )) ? 'p='.$backup : 'p='.$article;
+		if (!empty($fpw_post)) :
 		
-		if ($fpw_post=='p=') $fpw_post = 'posts_per_page=1&orderby=rand';
+			$fpw_args = array(
+				'p' => $fpw_post
+			);
+		
+		else :
+		
+			$fpw_args = array (
+				'posts_per_page' => 1,
+				'orderby' => 'rand',
+				'post__not_in' => array($fpw_queried_id)
+			);
+			
+		endif;
 		
 		/* This is the actual function of the plugin, it fills the widget with the customized post */
 		
-		$fpw_posts = new WP_Query($fpw_post);
+		$fpw_posts = new WP_Query($fpw_args);
 		
-		while($fpw_posts->have_posts()) :
+		while ($fpw_posts->have_posts()) :
 				
 			$fpw_posts->the_post();
-	 
-			$fpw_tags = A5_Image::tags(self::language_file);
+			
+			$fpw_tags = A5_Image::tags();
 			
 			$fpw_image_alt = $fpw_tags['image_alt'];
 			$fpw_image_title = $fpw_tags['image_title'];
@@ -218,7 +222,7 @@ class Featured_Post_Widget extends WP_Widget {
 			
 			$fpw_style = ($instance['alignment'] != 'notext' && $instance['alignment'] != 'none') ? ' style="text-align: '.$instance['alignment'].';"' : '';
 			
-			$eol = "\r\n";
+			$eol = "\n";
 			
 			// headline, if wanted
 			
@@ -335,7 +339,7 @@ class Featured_Post_Widget extends WP_Widget {
 		endwhile;
 		
 		// Restore original Query & Post Data
-		wp_reset_query();
+		
 		wp_reset_postdata();
 		
 		echo $after_widget;

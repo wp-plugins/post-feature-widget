@@ -3,14 +3,15 @@
 Plugin Name: Featured Post Widget
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/featured-post-widget
 Description: Featured Post Widget is yet another plugin to make your blog a bit more newspaper-like. Just by choosing a post from a dropdown, you can put it in the 'featured' area and display thumbnail, headline, excerpt or all three of them (if available) in the fully customizable widget.
-Version: 4.0
+Version: 4.1.2
 Author: Waldemar Stoffel
 Author URI: http://www.waldemarstoffel.com
 License: GPL3
 Text Domain: postfeature
+Domain Path: /languages
 */
 
-/*  Copyright 2010 - 2014  Waldemar Stoffel  (email : stoffel@atelier-fuenf.de)
+/*  Copyright 2010 - 2015  Waldemar Stoffel  (email : stoffel@atelier-fuenf.de)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,6 +42,7 @@ if (!class_exists('A5_Excerpt')) require_once PF_PATH.'class-lib/A5_ExcerptClass
 if (!class_exists('A5_FormField')) require_once PF_PATH.'class-lib/A5_FormFieldClass.php';
 if (!class_exists('A5_OptionPage')) require_once PF_PATH.'class-lib/A5_OptionPageClass.php';
 if (!class_exists('A5_DynamicFiles')) require_once PF_PATH.'class-lib/A5_DynamicFileClass.php';
+if (!class_exists('A5_Widget')) require_once PF_PATH.'class-lib/A5_WidgetClass.php';
 
 #loading plugin specific classes
 if (!class_exists('FP_Admin')) require_once PF_PATH.'class-lib/FP_AdminClass.php';
@@ -49,13 +51,11 @@ if (!class_exists('Featured_Post_Widget')) require_once PF_PATH.'class-lib/FP_Wi
 
 class PostFeaturePlugin {
 	
-	const language_file = 'postfeature';
-
 	static $options;
 	
 	function __construct() {
 		
-		load_plugin_textdomain(self::language_file, false , basename(dirname(__FILE__)).'/languages');
+		load_plugin_textdomain('postfeature', false , basename(dirname(__FILE__)).'/languages');
 		
 		add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
 		
@@ -65,9 +65,7 @@ class PostFeaturePlugin {
 		register_activation_hook(  __FILE__, array($this, '_install') );
 		register_deactivation_hook(  __FILE__, array($this, '_uninstall') );
 		
-		self::$options = get_option('postfeature_cache');
-		
-		if (false != self::$options) : 
+		if (false != get_option('postfeature_cache')) : 
 		
 			delete_option('postfeature_cache');
 			
@@ -76,6 +74,8 @@ class PostFeaturePlugin {
 		endif;
 		
 		self::$options = get_option('pf_options');
+		
+		if (@!array_key_exists('flushed', self::$options)) add_action('init', array ($this, 'update_rewrite_rules'));
 		
 		$FP_DynamicCSS = new FP_DynamicCSS;
 		$FP_Admin = new FP_Admin;
@@ -102,8 +102,8 @@ class PostFeaturePlugin {
 		
 		if ($file == PF_BASE) :
 		
-			$links[] = '<a href="http://wordpress.org/extend/plugins/post-feature-widget/faq/" target="_blank">'.__('FAQ', self::language_file).'</a>';
-			$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D8AVGNDYYUNA2" target="_blank">'.__('Donate', self::language_file).'</a>';
+			$links[] = '<a href="http://wordpress.org/extend/plugins/post-feature-widget/faq/" target="_blank">'.__('FAQ', 'postfeature').'</a>';
+			$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D8AVGNDYYUNA2" target="_blank">'.__('Donate', 'postfeature').'</a>';
 		
 		endif;
 		
@@ -113,7 +113,7 @@ class PostFeaturePlugin {
 	
 	function plugin_action_links( $links, $file ) {
 		
-		if ($file == PF_BASE) array_unshift($links, '<a href="'.admin_url( 'options-general.php?page=featured-post-settings' ).'">'.__('Settings', self::language_file).'</a>');
+		if ($file == PF_BASE) array_unshift($links, '<a href="'.admin_url( 'options-general.php?page=featured-post-settings' ).'">'.__('Settings', 'postfeature').'</a>');
 	
 		return $links;
 	
@@ -125,10 +125,20 @@ class PostFeaturePlugin {
 		
 		$default = array(
 			'cache' => array(),
-			'inline' => false
+			'inline' => false,
+			'flushed' => true
 		);
 	
 		add_option('pf_options', $default);
+		
+		add_rewrite_rule('a5-framework-frontend.css', 'index.php?A5_file=wp_css', 'top');
+		add_rewrite_rule('a5-framework-frontend.js', 'index.php?A5_file=wp_js', 'top');
+		add_rewrite_rule('a5-framework-backend.css', 'index.php?A5_file=admin_css', 'top');
+		add_rewrite_rule('a5-framework-backend.js', 'index.php?A5_file=admin_js', 'top');
+		add_rewrite_rule('a5-framework-login.css', 'index.php?A5_file=login_css', 'top');
+		add_rewrite_rule('a5-framework-login.js', 'index.php?A5_file=login_js', 'top');
+		add_rewrite_rule('a5-export-settings', 'index.php?A5_file=export', 'top');
+		flush_rewrite_rules();
 	
 	}
 	
@@ -137,6 +147,26 @@ class PostFeaturePlugin {
 	function _uninstall() {
 	
 		delete_option('pf_options');
+		
+		flush_rewrite_rules();
+	
+	}
+	
+	function update_rewrite_rules() {
+		
+		add_rewrite_rule('a5-framework-frontend.css', 'index.php?A5_file=wp_css', 'top');
+		add_rewrite_rule('a5-framework-frontend.js', 'index.php?A5_file=wp_js', 'top');
+		add_rewrite_rule('a5-framework-backend.css', 'index.php?A5_file=admin_css', 'top');
+		add_rewrite_rule('a5-framework-backend.js', 'index.php?A5_file=admin_js', 'top');
+		add_rewrite_rule('a5-framework-login.css', 'index.php?A5_file=login_css', 'top');
+		add_rewrite_rule('a5-framework-login.js', 'index.php?A5_file=login_js', 'top');
+		add_rewrite_rule('a5-export-settings', 'index.php?A5_file=export', 'top');
+		
+		flush_rewrite_rules();
+		
+		self::$options['flushed'] = true;
+		
+		update_option('pf_options', self::$options);
 	
 	}
 
