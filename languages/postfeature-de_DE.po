@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Post-Feature-Widget\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/post-feature-widget\n"
-"POT-Creation-Date: 2015-08-17 00:18+0200\n"
-"PO-Revision-Date: 2015-08-17 00:25+0200\n"
+"POT-Creation-Date: 2015-08-26 11:26+0200\n"
+"PO-Revision-Date: 2015-08-26 11:26+0200\n"
 "Last-Translator: Waldemar Stoffel <stoffel@atelier-furnf.de>\n"
 "Language-Team: Waldemar Stoffel <info@waldemarstoffel.com>\n"
 "Language: de_DE\n"
@@ -27,7 +27,7 @@ msgid "Permalink to"
 msgstr "Link zu: "
 
 #: class-lib/A5_OptionPageClass.php:31 class-lib/FP_AdminClass.php:50
-#: postfeature.php:114
+#: postfeature.php:116
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -297,14 +297,14 @@ msgstr ""
 #: class-lib/FP_WidgetClass.php:108
 msgid "Post ID (if you don&#39;t want to use the dropdown menu):"
 msgstr ""
-"Post ID (falls einen Custom Post Type anzeigen willst oder einfach das "
+"Post ID (falls du einen Custom Post Type anzeigen willst oder einfach das "
 "Dropdown-Menü nicht benutzen willst):"
 
 #: class-lib/FP_WidgetClass.php:109
 msgid "ID for backup post (if you don&#39;t want to use the dropdown menu):"
 msgstr ""
-"ID für den Backup-Artikel (falls einen Custom Post Type anzeigen willst oder "
-"einfach das Dropdown-Menü nicht benutzen willst):"
+"ID für den Backup-Artikel (falls du einen Custom Post Type anzeigen willst "
+"oder einfach das Dropdown-Menü nicht benutzen willst):"
 
 #: class-lib/FP_WidgetClass.php:110
 msgid ""
@@ -403,10 +403,10 @@ msgstr ""
 "Umrandung und einen inneren Abstand von 10 px zu bekommen. Wenn du das Feld "
 "leer lässt, wird dein Theme das Styling übernehmen."
 
-#: postfeature.php:103
+#: postfeature.php:105
 msgid "FAQ"
 msgstr "FAQ"
 
-#: postfeature.php:104
+#: postfeature.php:106
 msgid "Donate"
 msgstr "Spenden"

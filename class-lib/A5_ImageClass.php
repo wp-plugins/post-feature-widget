@@ -5,7 +5,7 @@
  * Class A5 Images
  *
  * @ A5 Plugin Framework
- * Version: 1.0 beta 20150629
+ * Version: 1.0 beta 20150821
  *
  * Gets the alt and title tag for attachments
  *
@@ -120,6 +120,8 @@ class A5_Image {
 		if (!isset($number)) :
 		
 			if (has_post_thumbnail()) $attachment_id = get_post_thumbnail_id();
+			
+			$custom_fields = get_post_custom($id);
 			
 			if (!isset($attachment_id)) :
 			

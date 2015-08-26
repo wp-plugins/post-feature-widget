@@ -5,7 +5,7 @@
  * Class A5 Dynamic Files
  *
  * @ A5 Plugin Framework
- * Version: 1.0 beta 20150629
+ * Version: 1.0 beta 20150821
  *
  * Handels styles or javascript in either dynamical files or inline
  * 
@@ -54,6 +54,14 @@ class A5_DynamicFiles {
 		
 		global $wp;
 		$wp->add_query_var('A5_file');
+		
+		add_rewrite_rule('a5-framework-frontend.css', 'index.php?A5_file=wp_css', 'top');
+		add_rewrite_rule('a5-framework-frontend.js', 'index.php?A5_file=wp_js', 'top');
+		add_rewrite_rule('a5-framework-backend.css', 'index.php?A5_file=admin_css', 'top');
+		add_rewrite_rule('a5-framework-backend.js', 'index.php?A5_file=admin_js', 'top');
+		add_rewrite_rule('a5-framework-login.css', 'index.php?A5_file=login_css', 'top');
+		add_rewrite_rule('a5-framework-login.js', 'index.php?A5_file=login_js', 'top');
+		add_rewrite_rule('a5-export-settings', 'index.php?A5_file=export', 'top');
 	
 	}
 	
@@ -121,7 +129,7 @@ class A5_DynamicFiles {
 	
 	function wp_enqueue_css () {
 		
-		$A5_css_file=get_bloginfo('url').'/?A5_file=wp_css';
+		$A5_css_file=get_bloginfo('url').'/a5-framework-frontend.css';
 					
 		wp_register_style('A5-framework', $A5_css_file, false, A5_FormField::version, self::$media);
 		wp_enqueue_style('A5-framework');
@@ -132,7 +140,7 @@ class A5_DynamicFiles {
 		
 		$footer = ('footer' == self::$media) ? true : false;
 		
-		$A5_js_file=get_bloginfo('url').'/?A5_file=wp_js';
+		$A5_js_file=get_bloginfo('url').'/a5-framework-frontend.js';
 			
 		wp_register_script('A5-framework', $A5_js_file, false, A5_FormField::version, $footer);
 		wp_enqueue_script('A5-framework');
@@ -145,7 +153,7 @@ class A5_DynamicFiles {
 		
 		if (!in_array($hook, self::$hooks)) return;
 		
-		$A5_css_file=get_bloginfo('url').'/?A5_file=admin_css';
+		$A5_css_file=get_bloginfo('url').'/a5-framework-backend.css';
 					
 		wp_register_style('A5-framework', $A5_css_file, false, A5_FormField::version, self::$media);
 		wp_enqueue_style('A5-framework');
@@ -158,7 +166,7 @@ class A5_DynamicFiles {
 		
 		$footer = ('footer' == self::$media) ? true : false;
 	
-		$A5_js_file=get_bloginfo('url').'/?A5_file=admin_js';
+		$A5_js_file=get_bloginfo('url').'/a5-framework-backend.js';
 			
 		wp_register_script('A5-framework', $A5_js_file, false, A5_FormField::version, $footer);
 		wp_enqueue_script('A5-framework');
@@ -169,7 +177,7 @@ class A5_DynamicFiles {
 	
 	function login_enqueue_css () {
 		
-		$A5_css_file=get_bloginfo('url').'/?A5_file=login_css';
+		$A5_css_file=get_bloginfo('url').'/a5-framework-login.css';
 			
 		wp_register_style('A5-framework', $A5_css_file, false, A5_FormField::version, self::$media);
 		wp_enqueue_style('A5-framework');
@@ -180,7 +188,7 @@ class A5_DynamicFiles {
 		
 		$footer = ('footer' == self::$media) ? true : false;
 		
-		$A5_js_file=get_bloginfo('url').'/?A5_file=login_js';
+		$A5_js_file=get_bloginfo('url').'/a5-framework-login.js';
 			
 		wp_register_script('A5-framework', $A5_js_file, false, A5_FormField::version, $footer);
 		wp_enqueue_script('A5-framework');

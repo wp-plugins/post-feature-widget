@@ -3,7 +3,7 @@
 Plugin Name: Featured Post Widget
 Plugin URI: http://wasistlos.waldemarstoffel.com/plugins-fur-wordpress/featured-post-widget
 Description: Featured Post Widget is yet another plugin to make your blog a bit more newspaper-like. Just by choosing a post from a dropdown, you can put it in the 'featured' area and display thumbnail, headline, excerpt or all three of them (if available) in the fully customizable widget.
-Version: 4.1
+Version: 4.1.2
 Author: Waldemar Stoffel
 Author URI: http://www.waldemarstoffel.com
 License: GPL3
@@ -75,6 +75,8 @@ class PostFeaturePlugin {
 		
 		self::$options = get_option('pf_options');
 		
+		if (@!array_key_exists('flushed', self::$options)) add_action('init', array ($this, 'update_rewrite_rules'));
+		
 		$FP_DynamicCSS = new FP_DynamicCSS;
 		$FP_Admin = new FP_Admin;
 		
@@ -123,10 +125,20 @@ class PostFeaturePlugin {
 		
 		$default = array(
 			'cache' => array(),
-			'inline' => false
+			'inline' => false,
+			'flushed' => true
 		);
 	
 		add_option('pf_options', $default);
+		
+		add_rewrite_rule('a5-framework-frontend.css', 'index.php?A5_file=wp_css', 'top');
+		add_rewrite_rule('a5-framework-frontend.js', 'index.php?A5_file=wp_js', 'top');
+		add_rewrite_rule('a5-framework-backend.css', 'index.php?A5_file=admin_css', 'top');
+		add_rewrite_rule('a5-framework-backend.js', 'index.php?A5_file=admin_js', 'top');
+		add_rewrite_rule('a5-framework-login.css', 'index.php?A5_file=login_css', 'top');
+		add_rewrite_rule('a5-framework-login.js', 'index.php?A5_file=login_js', 'top');
+		add_rewrite_rule('a5-export-settings', 'index.php?A5_file=export', 'top');
+		flush_rewrite_rules();
 	
 	}
 	
@@ -135,6 +147,26 @@ class PostFeaturePlugin {
 	function _uninstall() {
 	
 		delete_option('pf_options');
+		
+		flush_rewrite_rules();
+	
+	}
+	
+	function update_rewrite_rules() {
+		
+		add_rewrite_rule('a5-framework-frontend.css', 'index.php?A5_file=wp_css', 'top');
+		add_rewrite_rule('a5-framework-frontend.js', 'index.php?A5_file=wp_js', 'top');
+		add_rewrite_rule('a5-framework-backend.css', 'index.php?A5_file=admin_css', 'top');
+		add_rewrite_rule('a5-framework-backend.js', 'index.php?A5_file=admin_js', 'top');
+		add_rewrite_rule('a5-framework-login.css', 'index.php?A5_file=login_css', 'top');
+		add_rewrite_rule('a5-framework-login.js', 'index.php?A5_file=login_js', 'top');
+		add_rewrite_rule('a5-export-settings', 'index.php?A5_file=export', 'top');
+		
+		flush_rewrite_rules();
+		
+		self::$options['flushed'] = true;
+		
+		update_option('pf_options', self::$options);
 	
 	}
 

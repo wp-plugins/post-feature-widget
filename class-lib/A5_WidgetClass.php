@@ -5,7 +5,7 @@
  * Class A5 Widget
  *
  * @ A5 Plugin Framework
- * Version: 1.0 beta 20150629
+ * Version: 1.0 beta 20150821
  *
  * Some standard functions for widgets
  *

@@ -163,8 +163,6 @@ class Featured_Post_Widget extends A5_Widget {
 	
 	function widget($args, $instance) {
 		
-		rewind_posts();
-		
 		extract( $args );
 		
 		$title = apply_filters('widget_title', $instance['title']);
@@ -188,22 +186,34 @@ class Featured_Post_Widget extends A5_Widget {
 		$article = ($instance['id']) ? $instance['id'] : $instance['article'];
 		$backup = ($instance['bid']) ? $instance['bid'] : $instance['backup'];
 			
-		$fpw_post_id = get_post($article);
+		$fpw_queried_id = $wp_query->get_queried_object_id(); 
 		
-		$fpw_post_name = $fpw_post_id->post_name;
+		$fpw_post = ($fpw_queried_id == $article) ? (int) $backup : (int) $article;
 		
-		$fpw_post = ($article == $wp_query->get( 'p' ) || $fpw_post_name == $wp_query->get ( 'name' )) ? 'p='.$backup : 'p='.$article;
+		if (!empty($fpw_post)) :
 		
-		if ($fpw_post=='p=') $fpw_post = 'posts_per_page=1&orderby=rand';
+			$fpw_args = array(
+				'p' => $fpw_post
+			);
+		
+		else :
+		
+			$fpw_args = array (
+				'posts_per_page' => 1,
+				'orderby' => 'rand',
+				'post__not_in' => array($fpw_queried_id)
+			);
+			
+		endif;
 		
 		/* This is the actual function of the plugin, it fills the widget with the customized post */
 		
-		$fpw_posts = new WP_Query($fpw_post);
+		$fpw_posts = new WP_Query($fpw_args);
 		
-		while($fpw_posts->have_posts()) :
+		while ($fpw_posts->have_posts()) :
 				
 			$fpw_posts->the_post();
-	 
+			
 			$fpw_tags = A5_Image::tags();
 			
 			$fpw_image_alt = $fpw_tags['image_alt'];
@@ -329,7 +339,7 @@ class Featured_Post_Widget extends A5_Widget {
 		endwhile;
 		
 		// Restore original Query & Post Data
-		wp_reset_query();
+		
 		wp_reset_postdata();
 		
 		echo $after_widget;

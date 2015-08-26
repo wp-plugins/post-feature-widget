@@ -5,7 +5,7 @@
  * Class A5 FormField
  *
  * @ A5 Plugin Framework
- * Version: 1.0 beta 20150629
+ * Version: 1.0 beta 20150821
  *
  * Gets all sort of input fields for plugins by Atelier 5 
  *
@@ -15,7 +15,7 @@
 
 class A5_FormField {
 	
-	const version = '1.0 beta 20150629 FPW';
+	const version = '1.0 beta 20150821 FPW';
 	
 	public $formfield;
 	
@@ -131,7 +131,7 @@ class A5_FormField {
  
 /***************************************************************************************************
  
-	List of field functions their parameters:
+	List of field functions and their parameters:
 	
 	
 	html 4 (supported by all browsers):
